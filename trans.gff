@@ -1,0 +1,12 @@
+##gff-version 3
+##sequence-region A0A0J2E248 1 276
+A0A0J2E248	UniProtKB	Transmembrane	94	114	.	.	.	Note=Helical;Ontology_term=ECO:0000256;evidence=ECO:0000256|HAMAP-Rule:MF_01594	
+A0A0J2E248	UniProtKB	Transmembrane	142	162	.	.	.	Note=Helical;Ontology_term=ECO:0000256;evidence=ECO:0000256|HAMAP-Rule:MF_01594	
+A0A0J2E248	UniProtKB	Transmembrane	169	189	.	.	.	Note=Helical;Ontology_term=ECO:0000256;evidence=ECO:0000256|HAMAP-Rule:MF_01594	
+A0A0J2E248	UniProtKB	Transmembrane	192	212	.	.	.	Note=Helical;Ontology_term=ECO:0000256;evidence=ECO:0000256|HAMAP-Rule:MF_01594	
+A0A0J2E248	UniProtKB	Transmembrane	229	249	.	.	.	Note=Helical;Ontology_term=ECO:0000256;evidence=ECO:0000256|HAMAP-Rule:MF_01594	
+A0A0J2E248	UniProtKB	Transmembrane	250	270	.	.	.	Note=Helical;Ontology_term=ECO:0000256;evidence=ECO:0000256|HAMAP-Rule:MF_01594	
+A0A0J2E248	UniProtKB	Domain	1	82	.	.	.	Note=Rhomboid_N;Ontology_term=ECO:0000259;evidence=ECO:0000259|Pfam:PF12122	
+A0A0J2E248	UniProtKB	Domain	132	269	.	.	.	Note=Rhomboid;Ontology_term=ECO:0000259;evidence=ECO:0000259|Pfam:PF01694	
+A0A0J2E248	UniProtKB	Active site	201	201	.	.	.	Note=Nucleophile;Ontology_term=ECO:0000256;evidence=ECO:0000256|HAMAP-Rule:MF_01594	
+A0A0J2E248	UniProtKB	Active site	254	254	.	.	.	Ontology_term=ECO:0000256;evidence=ECO:0000256|HAMAP-Rule:MF_01594	
