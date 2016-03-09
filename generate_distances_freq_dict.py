@@ -3,6 +3,7 @@ import os
 import urllib
 from Bio.PDB import *
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
+from numpy import *
 
 def print_results(dict_results, outputname):
     """
@@ -73,13 +74,53 @@ def obtain_distances_freq_CIF(filename, outputname):
                     if res1 == res2:
                         continue
 
+                    if res_name1 == 'GLY':
+
+                        # get atom coordinates as vectors
+                        n = chain[res1]['N'].get_vector()
+                        c = chain[res1]['C'].get_vector()
+                        ca = chain[res1]['CA'].get_vector()
+                        # center at origin
+                        n = n - ca
+                        c = c - ca
+                        # find rotation matrix that rotates n -120 degrees along the ca-c vector
+                        rot = rotaxis(-pi*120.0/180.0, c)
+                        # apply rotation to ca-n vector
+                        cb_at_origin = n.left_multiply(rot)
+                        # put on top of ca atom
+                        cb1 = cb_at_origin + ca
+
+
+                    elif res_name2 == 'GLY':
+                        # get atom coordinates as vectors
+                        n = chain[res2]['N'].get_vector()
+                        c = chain[res2]['C'].get_vector()
+                        ca = chain[res2]['CA'].get_vector()
+                        # center at origin
+                        n = n - ca
+                        c = c - ca
+                        # find rotation matrix that rotates n -120 degrees along the ca-c vector
+                        rot = rotaxis(-pi*120.0/180.0, c)
+                        # apply rotation to ca-n vector
+                        cb_at_origin = n.left_multiply(rot)
+                        # put on top of ca atom
+                        cb2 = cb_at_origin + ca
+                        if res_name1 == 'GLY':
+                            dist_value = cb1 - cb2
+                        else:
+                            dist_value = chain[res1]['CB'].get_vector() - cb2
+                    elif res_name1 == 'GLY':
+                        dist_value = cb1 - chain[res2]['CB'].get_vector()
+
+                    else:
+                        dist_value = chain[res1]['CB'] - chain[res2]['CB']
+
                     # The class residue automatically calculates the distance
-                    dist_value = chain[res1]['CB'] - chain[res2]['CB']
+
 
                     # Check if the entry of the 2 aa has been generated reversely!
                     if (res_name2, res_name1) in transdom_inter_distances:
                         transdom_inter_distances[(res_name2, res_name1)].append(dist_value)
-                        transdom_aa_freq[res_name1] += 1
                         continue
 
                     # Save results into a dict-list
