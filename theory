@@ -1,0 +1,96 @@
+\documentclass[12pt,titlepage]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%           USEPACKAGES
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{amsmath, amssymb} %sMathematical symbols
+%\usepackage{theorem}%for using theorems. It causes conflict with amsthm, used for defining new theorem environments
+\usepackage{tabularx} %for already measures in tables
+\usepackage{epsfig} %including eps format images
+\usepackage{graphics}
+\usepackage{fancybox} %Per incloure requadres
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{longtable}
+\usepackage{color}
+\usepackage[utf8]{inputenc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%       IMPORTANT LETTERS (AND HOW TO DEFINE NEW COMMANDS)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\C}{\mathcal{C}} %COMPLEX
+\newcommand{\R}{\mathbb{R}} %REAL
+\newcommand{\Q}{\mathbb{Q}} %RACIONAL
+\newcommand{\Z}{\mathbb{Z}} %INTEGERS
+\newcommand{\N}{\mathbb{N}} %POSITIVE INTEGERS
+
+\usepackage{units}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   DEFINITION OF BORDERS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%DEFINITION
+\addtolength{\hoffset}{-1cm}
+\addtolength{\textwidth}{2.5cm}
+\addtolength{\voffset}{-1.5cm}
+\addtolength{\textheight}{4cm}
+
+%%%In order to enumerate theorems, propositions... and change their names (useful for other languages than english!)
+
+\newtheoremstyle{supercalifragilisticexpialidocious}{\topsep}{\topsep}{}{}{\bfseries}{}{ }{}
+\theoremstyle{supercalifragilisticexpialidocious}
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{lema}[teorema]{Lema}
+\newtheorem{defi}[teorema]{Definici\'on}
+\newtheorem{propo}[teorema]{Proposici\'on}
+\newtheorem{coro}[teorema]{Corolario}
+\newtheorem{obs}[teorema]{Observaci\'on}
+
+
+\begin{document}
+
+\title{\textbf{Structural Bioinformatics and Python project: Development of statistic potentials for predicting structure, a transmembrane approach }}
+\author{Adrià Auladell and Alberto Meseguer}
+\date{18 March, 2015 }
+\maketitle %this is optional in case you want a whole page just for the title, author and date.
+
+\section{Theoretical facts about transmembrane proteins. }
+
+\begin{itemize}
+\item[(i)] Length: from 14 residues to 40. 
+\item[(ii)] Membrane width: 30 A (Bilayer Thickness and Membrane Protein Function: An Energetic Perspective, 2007)
+
+50 A (Molecular Biology of the Cell, 6ed, Alberts, JOhnson, Lewis, et al
+
+Wikipedia: bilayer hidratation profile: a membrane can be divided in three compartments:
+
+1-Central: completelly hidrophobic: from 25 to 35 A
+2-Intermediate: partially hidratated: 3 A
+3-Outern: totally hidratated: 7 to 10 A
+
+From now we set: 
+
+-center +- 15 A = hidrophobic
+-from center + 15 to center + 25 = hidrophilic 
+-from center - 15 to center - 25 = hidrophilic 
+
+\item[(iii)] PDB coordinate units: amstrongs
+
+
+
+
+\end{itemize}
+
+
+\end{document}
