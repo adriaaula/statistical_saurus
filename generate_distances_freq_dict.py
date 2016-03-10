@@ -3,6 +3,7 @@ import os
 import urllib
 from Bio.PDB import *
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
+from Bio.PDB.PDBIO import PDBIO
 from numpy import *
 
 def print_results(dict_results, outputname):
@@ -75,7 +76,6 @@ def obtain_distances_freq_CIF(filename, outputname):
                         continue
 
                     if res_name1 == 'GLY':
-
                         # get atom coordinates as vectors
                         n = chain[res1]['N'].get_vector()
                         c = chain[res1]['C'].get_vector()
@@ -89,7 +89,6 @@ def obtain_distances_freq_CIF(filename, outputname):
                         cb_at_origin = n.left_multiply(rot)
                         # put on top of ca atom
                         cb1 = cb_at_origin + ca
-
 
                     elif res_name2 == 'GLY':
                         # get atom coordinates as vectors
@@ -108,9 +107,12 @@ def obtain_distances_freq_CIF(filename, outputname):
                         if res_name1 == 'GLY':
                             dist_value = cb1 - cb2
                         else:
-                            dist_value = chain[res1]['CB'].get_vector() - cb2
+                            cb1 = chain[res1]['CB'].get_vector()
+                            dist_value = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
+                            
                     elif res_name1 == 'GLY':
-                        dist_value = cb1 - chain[res2]['CB'].get_vector()
+                        cb2 = chain[res2]['CB'].get_vector()
+                        dist_value = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
 
                     else:
                         dist_value = chain[res1]['CB'] - chain[res2]['CB']
