@@ -7,21 +7,6 @@ from Bio.PDB.PDBIO import PDBIO
 from numpy import *
 
 
-def print_results(dict_results, outputname):
-    """
-    Prints the results with the specified format. Default separation
-    is tabs!
-    """
-    result_ouput = open(outputname, "w")
-    for key, value in dict_results.items():
-        string = str(key) + "\t"
-        for val in value:
-            string += str(val) + "\t"
-        string += "\n"
-        result_ouput.write(string)
-    result_ouput.close()
-
-
 def determine_transmembrane_domains(filename):
     """
     Compares the helix domains in PDB with the transmembrane domains in
@@ -109,6 +94,21 @@ def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_
     dict_name_freq[res_name1] += 1
 
 
+def print_results(dict_results, outputname):
+    """
+    Prints the results with the specified format. Default separation
+    is tabs!
+    """
+    result_ouput = open(outputname, "w")
+
+    for key, value in sorted(dict_results.items()):
+        string = str(key) + "\t"
+        for val in value:
+            string += str(val) + "\t"
+        string += "\n"
+        result_ouput.write(string)
+    result_ouput.close()
+
 def obtain_distances_freq_CIF(filename, outputname, outputname2):
 
     transdom_inter_distances = {}
@@ -173,7 +173,7 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2):
                     pass
 
     print_results(transdom_intra_distances, outputname)
-    print_results(transdom_intra_distances, outputname2)
+    print_results(transdom_inter_distances, outputname2)
 
 
 if __name__ == "__main__":
@@ -196,4 +196,4 @@ if __name__ == "__main__":
             for file_dir in os.listdir(dir_to_process):
                 obtain_distances_freq_CIF(file_dir, output, output2)
     else:
-        raise ValueError("TREX: Please specify output and input")
+        raise ValueError("TREX: Please specify input [1], output (intra_distances [2] and inter_distances [3]) ")

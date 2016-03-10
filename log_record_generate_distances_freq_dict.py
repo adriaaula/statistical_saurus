@@ -144,3 +144,33 @@ INFO:root:Chain processed: A
  Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
 INFO:root:Chain processed: B
  Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:
+
+New running
+INFO:root:Processing a file
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:
+
+New running
+INFO:root:Processing a file
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:
+
+New running
+INFO:root:Processing a file
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
