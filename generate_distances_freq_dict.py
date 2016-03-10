@@ -30,10 +30,14 @@ def determine_transmembrane_domains(filename):
     return chain_helix_domains
 
 
-def calculate_distance(res1, res2, chain):
+def calculate_distance(res1, res2, chain, chain2):
+    """
+    Retrieves a distance value between two residues.
+    Does the calculation for GLY residues.
+    """
 
     res_name1 = chain[res1].get_resname()
-    res_name2 = chain[res2].get_resname()
+    res_name2 = chain2[res2].get_resname()
 
     if res_name1 == 'GLY':
         # get atom coordinates as vectors
@@ -51,9 +55,9 @@ def calculate_distance(res1, res2, chain):
         cb1 = cb_at_origin + ca
     if res_name2 == 'GLY':
         # get atom coordinates as vectors
-        n = chain[res2]['N'].get_vector()
-        c = chain[res2]['C'].get_vector()
-        ca = chain[res2]['CA'].get_vector()
+        n = chain2[res2]['N'].get_vector()
+        c = chain2[res2]['C'].get_vector()
+        ca = chain2[res2]['CA'].get_vector()
         # center at origin
         n = n - ca
         c = c - ca
@@ -70,10 +74,10 @@ def calculate_distance(res1, res2, chain):
             cb1 = chain[res1]['CB'].get_vector()
             distance = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
     elif res_name1 == 'GLY':
-        cb2 = chain[res2]['CB'].get_vector()
+        cb2 = chain2[res2]['CB'].get_vector()
         distance = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
     else:
-        distance = chain[res1]['CB'] - chain[res2]['CB']
+        distance = chain[res1]['CB'] - chain2[res2]['CB']
 
     return distance
 
@@ -109,11 +113,23 @@ def print_results(dict_results, outputname):
         result_ouput.write(string)
     result_ouput.close()
 
-def obtain_distances_freq_CIF(filename, outputname, outputname2):
+def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = None):
 
-    transdom_inter_distances = {}
-    transdom_intra_distances = {}
-    transdom_aa_freq = {}
+    """
+    Calculates intra and inter distances of transmembrane domains present in
+    the protein.
+    Returns dataset of distances for all the proteins analysed.
+    """
+    # When working with the
+    if tuple_dict == None:
+        transdom_inter_distances = {}
+        transdom_intra_distances = {}
+        transdom_aa_freq = {}
+    else:
+        print('hola')
+        transdom_intra_distances = tuple_dict[0]
+        transdom_inter_distances = tuple_dict[1]
+        transdom_aa_freq = tuple_dict[2]
 
     # Select the file and generate a structure var with all the pdb inside
     mmcif_dict = MMCIF2Dict(filename)
@@ -128,18 +144,20 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2):
         logging.info('Chain processed: {}\n Transdom: {}'.format(key, value))
         chain1 = model[key]
         for val in value:
-
             beg_helix1, end_helix1 = int(val[0]), int(val[1])
+
+            # ################INTRA DISTANCES ####################################
             for res1 in range(beg_helix1, end_helix1 + 1):
                 for res2 in range(beg_helix1, end_helix1 + 1):
                     if res1 == res2:
                         continue
                     res_name1 = chain1[res1].get_resname()
                     res_name2 = chain1[res2].get_resname()
-                    distance = calculate_distance(res1, res2, chain1)
+                    distance = calculate_distance(res1, res2, chain1, chain1)
                     save_results_dict(res_name1, res_name2,
                                       distance, transdom_intra_distances,
                                       transdom_aa_freq)
+            # #######################INTER DISTANCES SAME CHAIN  ##############################
             for val2 in value:
                 if val == val2:
                     continue
@@ -148,32 +166,35 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2):
                     for res2 in range(beg_helix2, end_helix2 + 1):
                         res_name1 = chain1[res1].get_resname()
                         res_name2 = chain1[res2].get_resname()
-                        distance = calculate_distance(res1, res2, chain1)
+                        distance = calculate_distance(res1, res2, chain1, chain1)
                         save_results_dict(  res_name1, res_name2,
                                             distance, transdom_inter_distances,
                                             transdom_aa_freq)
 
-            print(val)
+
+        # #######################INTER DISTANCES BTWN CHAIN  ########################
+            for key, value in transmembrane_dict.items():
+                chain2 = model[key]
+                if chain1 == chain2:
+                    continue
+                for val3 in value:
+                    beg_helix3, end_helix3 = int(val3[0]), int(val3[1])
+                    for res1 in range(beg_helix1, end_helix1 + 1):
+                        for res2 in range(beg_helix3, end_helix3 + 1):
+                            res_name1 = chain1[res1].get_resname()
+                            res_name2 = chain2[res2].get_resname()
+                            distance = calculate_distance(res1, res2, chain1, chain2)
+                            save_results_dict(  res_name1, res_name2,
+                                                distance, transdom_inter_distances,
+                                                transdom_aa_freq)
 
 
-        # ################INTRA DISTANCES ####################################
-        # Iterate each of the residues and calculate frequencies
-        # and distances between CA atoms
+    if filename == input_path:
+        print_results(transdom_intra_distances, outputname)
+        print_results(transdom_inter_distances, outputname2)
 
-        #########################################################################
-        # #######################INTER DISTANCES  ##############################
-        for key, value in transmembrane_dict.items():
-            chain2 = model[key]
-        # ############################## SAME CHAIN#############################
-            if chain1 == chain2:
-                continue
-            for val in value:
-                beg_helix1, end_helix1 = int(val[0]), int(val[1])
-                for val in value:
-                    pass
-
-    print_results(transdom_intra_distances, outputname)
-    print_results(transdom_inter_distances, outputname2)
+    else:
+        return (transdom_intra_distances,transdom_inter_distances,transdom_aa_freq)
 
 
 if __name__ == "__main__":
@@ -181,7 +202,7 @@ if __name__ == "__main__":
 
     logging.basicConfig(filename=("log_record_" + sys.argv[0]), level=logging.INFO)
     logging.info('\n\nNew running')
-
+    tuple_dict = None
 
     if len(sys.argv) == 4:
         output2 = sys.argv[3]
@@ -194,6 +215,15 @@ if __name__ == "__main__":
             logging.info('Processing a dir')
             dir_to_process = os.getcwd() + '/' + input_path
             for file_dir in os.listdir(dir_to_process):
-                obtain_distances_freq_CIF(file_dir, output, output2)
+                file_dir = os.path.join(dir_to_process, file_dir)
+                if tuple_dict != None:
+                    tuple_dict = obtain_distances_freq_CIF(file_dir, output, output2,tuple_dict)
+                else:
+                    tuple_dict = obtain_distances_freq_CIF(file_dir, output, output2)
+
+            print_results(tuple_dict[0], output)
+            print_results(tuple_dict[1], output2)
+
+        exit()
     else:
         raise ValueError("TREX: Please specify input [1], output (intra_distances [2] and inter_distances [3]) ")
