@@ -1,24 +1,11 @@
 import sys
-import os
 import urllib
+import logging
 from Bio.PDB import *
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
 from Bio.PDB.PDBIO import PDBIO
 from numpy import *
 
-def print_results(dict_results, outputname):
-    """
-    Prints the results with the specified format. Default separation
-    is tabs!
-    """
-    result_ouput = open(outputname, "w")
-    for key, value in dict_results.items():
-        string = str(key) + "\t"
-        for val in value:
-            string += str(val) + "\t"
-        string += "\n"
-        result_ouput.write(string)
-    result_ouput.close()
 
 def determine_transmembrane_domains(filename):
     """
@@ -36,120 +23,207 @@ def determine_transmembrane_domains(filename):
         if int(end_helix[c]) - int(beg_helix[c]) <= 14:
             continue
         chain_helix_domains.setdefault((chaino[c]), [])
-        chain_helix_domains[chaino[c]].append((beg_helix[c],end_helix[c]))
+        chain_helix_domains[chaino[c]].append((beg_helix[c], end_helix[c]))
 
+    logging.info('There are {} chains with transmembrane dom: {}'.format(len(chain_helix_domains),
+                                                                         chain_helix_domains.keys()))
     return chain_helix_domains
 
 
-def obtain_distances_freq_CIF(filename, outputname):
+def calculate_distance(res1, res2, chain, chain2):
+    """
+    Retrieves a distance value between two residues.
+    Does the calculation for GLY residues.
+    """
 
-    transdom_inter_distances = {}
-    transdom_aa_freq = {}
+    res_name1 = chain[res1].get_resname()
+    res_name2 = chain2[res2].get_resname()
+
+    if res_name1 == 'GLY':
+        # get atom coordinates as vectors
+        n = chain[res1]['N'].get_vector()
+        c = chain[res1]['C'].get_vector()
+        ca = chain[res1]['CA'].get_vector()
+        # center at origin
+        n = n - ca
+        c = c - ca
+        # find rotation matrix that rotates n -120 degrees along the ca-c vector
+        rot = rotaxis(-pi * 120.0 / 180.0, c)
+        # apply rotation to ca-n vector
+        cb_at_origin = n.left_multiply(rot)
+        # put on top of ca atom
+        cb1 = cb_at_origin + ca
+    if res_name2 == 'GLY':
+        # get atom coordinates as vectors
+        n = chain2[res2]['N'].get_vector()
+        c = chain2[res2]['C'].get_vector()
+        ca = chain2[res2]['CA'].get_vector()
+        # center at origin
+        n = n - ca
+        c = c - ca
+        # find rotation matrix that rotates n -120 degrees along the ca-c vector
+        rot = rotaxis(-pi * 120.0 / 180.0, c)
+        # apply rotation to ca-n vector
+        cb_at_origin = n.left_multiply(rot)
+        # put on top of ca atom
+        cb2 = cb_at_origin + ca
+        if res_name1 == 'GLY':
+            distance = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
+
+        else:
+            cb1 = chain[res1]['CB'].get_vector()
+            distance = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
+    elif res_name1 == 'GLY':
+        cb2 = chain2[res2]['CB'].get_vector()
+        distance = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
+    else:
+        distance = chain[res1]['CB'] - chain2[res2]['CB']
+
+    return distance
+
+
+def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_freq):
+    """
+    Saves the results of the distances and the frequency in the designed dict.
+    The frequency dict is given by default, not necessary to definite it
+    """
+    # Check if the entry of the 2 aa has been generated reversely!
+    if (res_name2, res_name1) in dict_name_dist:
+        dict_name_dist[(res_name2, res_name1)].append(distance)
+        return
+    # Save results into a dict-list
+    dict_name_dist.setdefault((res_name1, res_name2), [])
+    dict_name_dist[(res_name1, res_name2)].append(distance)
+    dict_name_freq.setdefault(res_name1, 0)
+    dict_name_freq[res_name1] += 1
+
+
+def print_results(dict_results, outputname):
+    """
+    Prints the results with the specified format. Default separation
+    is tabs!
+    """
+    result_ouput = open(outputname, "w")
+
+    for key, value in sorted(dict_results.items()):
+        string = str(key) + "\t"
+        for val in value:
+            string += str(val) + "\t"
+        string += "\n"
+        result_ouput.write(string)
+    result_ouput.close()
+
+def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = None):
+
+    """
+    Calculates intra and inter distances of transmembrane domains present in
+    the protein.
+    Returns dataset of distances for all the proteins analysed.
+    """
+    # When working with the
+    if tuple_dict == None:
+        transdom_inter_distances = {}
+        transdom_intra_distances = {}
+        transdom_aa_freq = {}
+    else:
+        print('hola')
+        transdom_intra_distances = tuple_dict[0]
+        transdom_inter_distances = tuple_dict[1]
+        transdom_aa_freq = tuple_dict[2]
 
     # Select the file and generate a structure var with all the pdb inside
-
+    mmcif_dict = MMCIF2Dict(filename)
     entity = MMCIFParser()
-    structure = entity.get_structure("test", filename)
+    structure = entity.get_structure(mmcif_dict['_entry.id'], filename)
+    logging.info('Working with {}'.format(mmcif_dict['_entry.id']))
     model = structure[0]
 
     transmembrane_dict = determine_transmembrane_domains(filename)
 
     for key, value in transmembrane_dict.items():
-        chain = model[key]
+        logging.info('Chain processed: {}\n Transdom: {}'.format(key, value))
+        chain1 = model[key]
+        for val in value:
+            beg_helix1, end_helix1 = int(val[0]), int(val[1])
 
-        beg_helix = value[0]
-        end_helix = value[1]
-
-        # Iterate each of the resiudes and calculate frequencies
-        # and distances between CA atoms
-
-        for i in range(len(beg_helix)):
-            hbeg = int(beg_helix[i])
-            hend = int(end_helix[i])
-
-            for res1 in range(hbeg, hend + 1):
-                res_name1 = chain[res1].get_resname()
-                for res2 in range(hbeg, hend + 1):
-                    res_name2 = chain[res2].get_resname()
-
+            # ################INTRA DISTANCES ####################################
+            for res1 in range(beg_helix1, end_helix1 + 1):
+                for res2 in range(beg_helix1, end_helix1 + 1):
                     if res1 == res2:
                         continue
-
-                    if res_name1 == 'GLY':
-                        # get atom coordinates as vectors
-                        n = chain[res1]['N'].get_vector()
-                        c = chain[res1]['C'].get_vector()
-                        ca = chain[res1]['CA'].get_vector()
-                        # center at origin
-                        n = n - ca
-                        c = c - ca
-                        # find rotation matrix that rotates n -120 degrees along the ca-c vector
-                        rot = rotaxis(-pi*120.0/180.0, c)
-                        # apply rotation to ca-n vector
-                        cb_at_origin = n.left_multiply(rot)
-                        # put on top of ca atom
-                        cb1 = cb_at_origin + ca
-
-                    elif res_name2 == 'GLY':
-                        # get atom coordinates as vectors
-                        n = chain[res2]['N'].get_vector()
-                        c = chain[res2]['C'].get_vector()
-                        ca = chain[res2]['CA'].get_vector()
-                        # center at origin
-                        n = n - ca
-                        c = c - ca
-                        # find rotation matrix that rotates n -120 degrees along the ca-c vector
-                        rot = rotaxis(-pi*120.0/180.0, c)
-                        # apply rotation to ca-n vector
-                        cb_at_origin = n.left_multiply(rot)
-                        # put on top of ca atom
-                        cb2 = cb_at_origin + ca
-                        if res_name1 == 'GLY':
-                            dist_value = cb1 - cb2
-                        else:
-                            cb1 = chain[res1]['CB'].get_vector()
-                            dist_value = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
-                            
-                    elif res_name1 == 'GLY':
-                        cb2 = chain[res2]['CB'].get_vector()
-                        dist_value = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
-
-                    else:
-                        dist_value = chain[res1]['CB'] - chain[res2]['CB']
-
-                    # The class residue automatically calculates the distance
+                    res_name1 = chain1[res1].get_resname()
+                    res_name2 = chain1[res2].get_resname()
+                    distance = calculate_distance(res1, res2, chain1, chain1)
+                    save_results_dict(res_name1, res_name2,
+                                      distance, transdom_intra_distances,
+                                      transdom_aa_freq)
+            # #######################INTER DISTANCES SAME CHAIN  ##############################
+            for val2 in value:
+                if val == val2:
+                    continue
+                beg_helix2, end_helix2 = int(val2[0]), int(val2[1])
+                for res1 in range(beg_helix1, end_helix1 + 1):
+                    for res2 in range(beg_helix2, end_helix2 + 1):
+                        res_name1 = chain1[res1].get_resname()
+                        res_name2 = chain1[res2].get_resname()
+                        distance = calculate_distance(res1, res2, chain1, chain1)
+                        save_results_dict(  res_name1, res_name2,
+                                            distance, transdom_inter_distances,
+                                            transdom_aa_freq)
 
 
-                    # Check if the entry of the 2 aa has been generated reversely!
-                    if (res_name2, res_name1) in transdom_inter_distances:
-                        transdom_inter_distances[(res_name2, res_name1)].append(dist_value)
-                        continue
+        # #######################INTER DISTANCES BTWN CHAIN  ########################
+            for key, value in transmembrane_dict.items():
+                chain2 = model[key]
+                if chain1 == chain2:
+                    continue
+                for val3 in value:
+                    beg_helix3, end_helix3 = int(val3[0]), int(val3[1])
+                    for res1 in range(beg_helix1, end_helix1 + 1):
+                        for res2 in range(beg_helix3, end_helix3 + 1):
+                            res_name1 = chain1[res1].get_resname()
+                            res_name2 = chain2[res2].get_resname()
+                            distance = calculate_distance(res1, res2, chain1, chain2)
+                            save_results_dict(  res_name1, res_name2,
+                                                distance, transdom_inter_distances,
+                                                transdom_aa_freq)
 
-                    # Save results into a dict-list
-                    transdom_inter_distances.setdefault((res_name1, res_name2), [])
-                    transdom_inter_distances[(res_name1, res_name2)].append(dist_value)
 
-                    transdom_aa_freq.setdefault(res_name1, 0)
-                    transdom_aa_freq[res_name1] += 1
+    if filename == input_path:
+        print_results(transdom_intra_distances, outputname)
+        print_results(transdom_inter_distances, outputname2)
 
-
-
-    O_transdom_inter_distances = sorted(transdom_inter_distances.items())
-    O_transdom_aa_freq = sorted(transdom_aa_freq.items())
-
-    print_results(transdom_inter_distances, outputname)
+    else:
+        return (transdom_intra_distances,transdom_inter_distances,transdom_aa_freq)
 
 
 if __name__ == "__main__":
+    import os
 
-    if len(sys.argv) >= 3:
+    logging.basicConfig(filename=("log_record_" + sys.argv[0]), level=logging.INFO)
+    logging.info('\n\nNew running')
+    tuple_dict = None
+
+    if len(sys.argv) == 4:
+        output2 = sys.argv[3]
         output = sys.argv[2]
         input_path = sys.argv[1]
         if os.path.isfile(input_path):
-            obtain_distances_freq_CIF(input_path, output)
+            logging.info('Processing a file')
+            obtain_distances_freq_CIF(input_path, output, output2)
         elif os.path.isdir(input_path):
+            logging.info('Processing a dir')
             dir_to_process = os.getcwd() + '/' + input_path
             for file_dir in os.listdir(dir_to_process):
-                obtain_distances_freq_CIF(file_dir, output)
+                file_dir = os.path.join(dir_to_process, file_dir)
+                if tuple_dict != None:
+                    tuple_dict = obtain_distances_freq_CIF(file_dir, output, output2,tuple_dict)
+                else:
+                    tuple_dict = obtain_distances_freq_CIF(file_dir, output, output2)
+
+            print_results(tuple_dict[0], output)
+            print_results(tuple_dict[1], output2)
+
+        exit()
     else:
-        raise ValueError("TREX: Please specify output and input")
+        raise ValueError("TREX: Please specify input [1], output (intra_distances [2] and inter_distances [3]) ")
