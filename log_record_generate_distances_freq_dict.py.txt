@@ -1,0 +1,933 @@
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 4OV0
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('132', '155'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 1GUE
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('3', '26'), ('33', '56'), ('70', '92'), ('94', '118'), ('122', '143'), ('153', '172'), ('189', '219')]
+INFO:root:Working with 4FPD
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '161'), ('170', '192'), ('200', '217')]
+INFO:root:Working with 3QBI
+INFO:root:There are 3 chains with transmembrane dom: dict_keys(['A', 'B', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('31', '56'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Chain processed: B
+ Transdom: [('31', '57'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Chain processed: C
+ Transdom: [('31', '56'), ('61', '88'), ('122', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Working with 4L35
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('7', '30'), ('34', '60'), ('78', '100'), ('102', '126'), ('133', '159'), ('168', '196'), ('204', '228')]
+INFO:root:Working with 4MD2
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 5AHY
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('21', '52'), ('57', '82'), ('105', '128'), ('130', '154'), ('157', '181'), ('192', '217'), ('226', '242')]
+INFO:root:Working with 1DZE
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('38', '62'), ('80', '102'), ('104', '128'), ('133', '154'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 1AP9
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('37', '61'), ('105', '126'), ('134', '152'), ('172', '189'), ('202', '220')]
+INFO:root:Working with 1S51
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '160'), ('164', '192'), ('200', '225')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '32'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '160'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 3QBG
+INFO:root:There are 3 chains with transmembrane dom: dict_keys(['A', 'B', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('31', '56'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Chain processed: B
+ Transdom: [('31', '56'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Chain processed: C
+ Transdom: [('31', '56'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Working with 1S8L
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('7', '32'), ('36', '64'), ('79', '101'), ('104', '128'), ('132', '154'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 1XIO
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('2', '27'), ('33', '57'), ('69', '92'), ('98', '122'), ('124', '148'), ('158', '186'), ('194', '224')]
+INFO:root:Working with 1M0K
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 3X3C
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '159'), ('163', '194'), ('197', '224'), ('236', '269')]
+INFO:root:Working with 1UCQ
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '29'), ('38', '62'), ('80', '102'), ('104', '128'), ('130', '154'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 1QKP
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('6', '32'), ('37', '58'), ('80', '100'), ('105', '127'), ('131', '160'), ('165', '191'), ('201', '224')]
+INFO:root:NOPE, 1TN5
+INFO:root:Working with 3UTY
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('37', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '190'), ('200', '225')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '33'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '161'), ('164', '183'), ('200', '225')]
+INFO:root:NOPE, 1PXS
+INFO:root:Working with 3UG9
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('84', '109'), ('119', '140'), ('156', '175'), ('185', '208'), ('209', '242'), ('245', '272'), ('280', '296'), ('296', '318')]
+INFO:root:Working with 1IW6
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '29'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '154'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 1C8R
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 1H2S
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('3', '26'), ('33', '56'), ('70', '92'), ('94', '118'), ('121', '143'), ('153', '172'), ('189', '204'), ('206', '223')]
+INFO:root:Chain processed: B
+ Transdom: [('23', '51'), ('52', '82')]
+INFO:root:Working with 2NTU
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 1AT9
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('37', '62'), ('80', '100'), ('106', '126'), ('131', '155'), ('165', '191'), ('201', '224')]
+INFO:root:Working with 4YZI
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('84', '109'), ('119', '140'), ('156', '176'), ('187', '208'), ('209', '242'), ('245', '272'), ('280', '296'), ('296', '318')]
+INFO:root:Working with 1X0I
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '63'), ('79', '101'), ('104', '127'), ('130', '154'), ('164', '192'), ('200', '226')]
+INFO:root:NOPE, 4KLY
+INFO:root:Working with 2I20
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '63'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 2JAF
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('26', '51'), ('57', '82'), ('105', '128'), ('130', '154'), ('157', '181'), ('192', '217'), ('226', '242')]
+INFO:root:Working with 3DDL
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '37'), ('45', '73'), ('90', '112'), ('115', '142'), ('150', '173'), ('182', '209'), ('221', '258')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '38'), ('45', '73'), ('90', '112'), ('115', '142'), ('150', '172'), ('182', '209'), ('221', '258')]
+INFO:root:Working with 2AT9
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('8', '30'), ('37', '62'), ('80', '102'), ('105', '127'), ('131', '156'), ('165', '196'), ('201', '225')]
+INFO:root:NOPE, 1PXR
+INFO:root:NOPE, 1Q5J
+INFO:root:Working with 3QAP
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('1', '27'), ('33', '56'), ('70', '92'), ('94', '118'), ('122', '143'), ('153', '172'), ('189', '219')]
+INFO:root:Working with 1VJM
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '33'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 2I21
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '63'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 2ZFE
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '29'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '161'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 1BRX
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('8', '30'), ('37', '61'), ('80', '100'), ('105', '127'), ('131', '151'), ('168', '191'), ('201', '225')]
+INFO:root:NOPE, 3HAO
+INFO:root:Working with 5A44
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '152'), ('167', '192'), ('200', '225')]
+INFO:root:Working with 1IW9
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '63'), ('80', '102'), ('104', '128'), ('133', '154'), ('164', '192'), ('200', '217')]
+INFO:root:Working with 1JV7
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '63'), ('81', '101'), ('104', '127'), ('130', '162'), ('164', '192'), ('200', '225')]
+INFO:root:NOPE, 2Z55
+INFO:root:Working with 1JGJ
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('1', '27'), ('33', '56'), ('70', '92'), ('94', '118'), ('121', '150'), ('153', '181'), ('189', '216')]
+INFO:root:Working with 2NTW
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 1S52
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '34'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '154'), ('164', '192'), ('200', '225')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '34'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '160'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 3NS0
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 4JR8
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('7', '30'), ('34', '60'), ('78', '100'), ('102', '126'), ('133', '158'), ('168', '196'), ('204', '228')]
+INFO:root:NOPE, 3COD
+INFO:root:Working with 4X32
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('167', '192'), ('200', '226')]
+INFO:root:Working with 5AHZ
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('21', '51'), ('57', '82'), ('105', '128'), ('130', '154'), ('157', '181'), ('192', '217'), ('226', '242')]
+INFO:root:Working with 4PXK
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('7', '30'), ('34', '60'), ('78', '99'), ('102', '126'), ('133', '159'), ('168', '196'), ('204', '228')]
+INFO:root:Working with 4GYC
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('3', '26'), ('30', '56'), ('70', '92'), ('94', '118'), ('122', '143'), ('153', '172'), ('189', '221')]
+INFO:root:Chain processed: B
+ Transdom: [('24', '49'), ('52', '83')]
+INFO:root:Working with 1X0S
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '29'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '161'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 1O0A
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 2L6X
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('24', '50'), ('58', '87'), ('90', '115'), ('121', '144'), ('150', '167'), ('179', '209'), ('215', '230')]
+INFO:root:Working with 1M0L
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 1KG9
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:NOPE, 1BRR
+INFO:root:Working with 1R2N
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '29'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '155'), ('164', '191'), ('200', '224')]
+INFO:root:Working with 1S53
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '32'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 1XJI
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '34'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '154'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 3A7K
+INFO:root:There are 3 chains with transmembrane dom: dict_keys(['A', 'B', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('31', '57'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Chain processed: B
+ Transdom: [('31', '56'), ('61', '87'), ('120', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Chain processed: C
+ Transdom: [('31', '56'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '223'), ('240', '256')]
+INFO:root:Working with 3T45
+INFO:root:There are 3 chains with transmembrane dom: dict_keys(['A', 'B', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '154'), ('164', '183'), ('200', '226')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '31'), ('36', '62'), ('80', '102'), ('104', '127'), ('130', '154'), ('164', '183'), ('200', '226')]
+INFO:root:Chain processed: C
+ Transdom: [('9', '31'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '154'), ('164', '183'), ('200', '226')]
+INFO:root:Working with 2EI4
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('13', '36'), ('40', '67'), ('85', '107'), ('109', '132'), ('135', '159'), ('169', '197'), ('205', '231')]
+INFO:root:Working with 2JAG
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('26', '51'), ('57', '83'), ('105', '127'), ('130', '154'), ('157', '181'), ('192', '217'), ('226', '242')]
+INFO:root:Working with 1BRD
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('10', '32'), ('38', '62'), ('80', '100'), ('108', '127'), ('137', '157'), ('167', '191'), ('203', '225')]
+INFO:root:Working with 3HAQ
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '33'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '154'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 1X0K
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '29'), ('36', '62'), ('80', '102'), ('104', '128'), ('133', '161'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 3HAN
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '34'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '154'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 4Y9H
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '34'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '154'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 3HAS
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '34'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '154'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 3WQJ
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('13', '36'), ('40', '67'), ('85', '107'), ('109', '133'), ('135', '159'), ('169', '197'), ('205', '230')]
+INFO:root:NOPE, 3ABW
+INFO:root:Working with 4XTL
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '159'), ('163', '194'), ('197', '224'), ('236', '270')]
+INFO:root:Working with 3QBL
+INFO:root:There are 3 chains with transmembrane dom: dict_keys(['A', 'B', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('31', '56'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256'), ('256', '275')]
+INFO:root:Chain processed: B
+ Transdom: [('31', '56'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Chain processed: C
+ Transdom: [('31', '56'), ('61', '87'), ('120', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Working with 3AM6
+INFO:root:There are 4 chains with transmembrane dom: dict_keys(['A', 'B', 'D', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('6', '31'), ('38', '62'), ('76', '95'), ('100', '123'), ('126', '154'), ('160', '179'), ('195', '211'), ('211', '227')]
+INFO:root:Chain processed: B
+ Transdom: [('6', '31'), ('38', '62'), ('76', '95'), ('100', '123'), ('126', '154'), ('160', '179'), ('195', '211'), ('211', '227')]
+INFO:root:Chain processed: D
+ Transdom: [('6', '31'), ('38', '62'), ('76', '95'), ('100', '123'), ('126', '154'), ('160', '179'), ('195', '211'), ('211', '227')]
+INFO:root:Chain processed: C
+ Transdom: [('6', '31'), ('38', '62'), ('76', '95'), ('100', '123'), ('126', '154'), ('160', '179'), ('195', '211'), ('211', '227')]
+INFO:root:Working with 1E12
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('26', '51'), ('58', '81'), ('106', '127'), ('131', '154'), ('158', '180'), ('193', '216'), ('227', '255')]
+INFO:root:NOPE, 2M3G
+INFO:root:Working with 3QDC
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('1', '27'), ('33', '56'), ('70', '92'), ('94', '118'), ('122', '143'), ('153', '172'), ('189', '219')]
+INFO:root:Working with 4XXJ
+INFO:root:There are 3 chains with transmembrane dom: dict_keys(['A', 'B', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '154'), ('164', '192'), ('200', '226')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:Chain processed: C
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '127'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 1JV6
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '63'), ('78', '101'), ('104', '128'), ('130', '162'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 1KME
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '34'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '160'), ('164', '192'), ('200', '225')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '34'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '160'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 4HWL
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '34'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '161'), ('164', '192'), ('200', '225')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '33'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '161'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 1GU8
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('3', '26'), ('33', '56'), ('70', '92'), ('94', '118'), ('122', '143'), ('153', '181'), ('189', '219')]
+INFO:root:Working with 3HAP
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '34'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '154'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 1F4Z
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '217')]
+INFO:root:Working with 1M0M
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 5A45
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('165', '183'), ('200', '226')]
+INFO:root:Working with 1QKO
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('6', '32'), ('37', '58'), ('80', '100'), ('105', '127'), ('131', '160'), ('165', '191'), ('201', '224')]
+INFO:root:Working with 2WJL
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '224')]
+INFO:root:NOPE, 3UTX
+INFO:root:NOPE, 1UAZ
+INFO:root:Working with 3VVK
+INFO:root:There are 5 chains with transmembrane dom: dict_keys(['A', 'B', 'F', 'D', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('174', '195'), ('240', '255')]
+INFO:root:Chain processed: B
+ Transdom: [('61', '86'), ('152', '167'), ('173', '196'), ('214', '232')]
+INFO:root:Chain processed: F
+ Transdom: [('178', '194'), ('207', '222')]
+INFO:root:Chain processed: D
+ Transdom: [('176', '195')]
+INFO:root:Chain processed: C
+ Transdom: [('31', '55'), ('176', '195'), ('209', '231'), ('240', '255')]
+INFO:root:Working with 3UTV
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '33'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '154'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 4TL3
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('2', '28'), ('33', '56'), ('69', '92'), ('98', '122'), ('124', '148'), ('158', '186'), ('194', '211'), ('211', '226')]
+INFO:root:Chain processed: B
+ Transdom: [('2', '28'), ('33', '57'), ('69', '92'), ('98', '122'), ('124', '148'), ('158', '186'), ('194', '211'), ('211', '226')]
+INFO:root:NOPE, 1CWQ
+INFO:root:NOPE, 4JQ6
+INFO:root:Working with 1H68
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('3', '26'), ('33', '56'), ('70', '92'), ('94', '118'), ('122', '150'), ('153', '181'), ('189', '219')]
+INFO:root:Working with 3VHZ
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '161'), ('164', '191'), ('200', '225')]
+INFO:root:Working with 4X31
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '63'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 1P8H
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 4XTN
+INFO:root:There are 10 chains with transmembrane dom: dict_keys(['B', 'E', 'H', 'D', 'F', 'A', 'C', 'G', 'I', 'J'])
+INFO:root:Chain processed: B
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '269')]
+INFO:root:Chain processed: E
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '270')]
+INFO:root:Chain processed: H
+ Transdom: [('21', '49'), ('54', '85'), ('106', '124'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '270')]
+INFO:root:Chain processed: D
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '270')]
+INFO:root:Chain processed: F
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '270')]
+INFO:root:Chain processed: A
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '270')]
+INFO:root:Chain processed: C
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '270')]
+INFO:root:Chain processed: G
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '270')]
+INFO:root:Chain processed: I
+ Transdom: [('21', '50'), ('57', '85'), ('106', '124'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '270')]
+INFO:root:Chain processed: J
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '270')]
+INFO:root:Working with 4HYJ
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('5', '32'), ('40', '66'), ('77', '95'), ('108', '137'), ('140', '162'), ('173', '189'), ('206', '239')]
+INFO:root:Chain processed: B
+ Transdom: [('8', '34'), ('40', '62'), ('78', '103'), ('108', '137'), ('140', '163'), ('173', '189'), ('206', '243')]
+INFO:root:Working with 4HYX
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '33'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '161'), ('164', '192'), ('200', '225')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '33'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '161'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 2KSY
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('4', '28'), ('33', '55'), ('70', '92'), ('94', '117'), ('122', '142'), ('153', '172'), ('189', '222')]
+INFO:root:Working with 2F95
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('3', '26'), ('33', '56'), ('70', '92'), ('94', '118'), ('121', '143'), ('153', '172'), ('189', '222')]
+INFO:root:Chain processed: B
+ Transdom: [('27', '51'), ('52', '79')]
+INFO:root:Working with 1C8S
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('79', '101'), ('104', '128'), ('130', '152'), ('176', '192'), ('200', '217')]
+INFO:root:Working with 3X3B
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '157'), ('163', '193'), ('197', '224'), ('236', '269')]
+INFO:root:Working with 3NSB
+INFO:root:There are 0 chains with transmembrane dom: dict_keys([])
+INFO:root:Working with 1L0M
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('166', '182')]
+INFO:root:Working with 3HAR
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '34'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '154'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 1P8I
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 2WJK
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('38', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('166', '183'), ('200', '225')]
+INFO:root:Working with 1C3W
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '63'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 3VI0
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '102'), ('104', '127'), ('130', '154'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 1FBK
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '29'), ('36', '63'), ('79', '101'), ('104', '128'), ('130', '153'), ('166', '192'), ('200', '226')]
+INFO:root:Working with 1IXF
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '29'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '161'), ('164', '183'), ('200', '216')]
+INFO:root:Working with 2BRD
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('38', '62'), ('77', '100'), ('105', '127'), ('134', '157'), ('166', '191'), ('203', '226')]
+INFO:root:Working with 1R84
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '29'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '215')]
+INFO:root:Working with 4XTO
+INFO:root:There are 5 chains with transmembrane dom: dict_keys(['A', 'B', 'E', 'D', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('21', '49'), ('57', '85'), ('106', '123'), ('134', '158'), ('163', '194'), ('197', '224'), ('236', '269')]
+INFO:root:Chain processed: B
+ Transdom: [('21', '49'), ('57', '85'), ('106', '124'), ('134', '157'), ('163', '194'), ('199', '223'), ('236', '268')]
+INFO:root:Chain processed: E
+ Transdom: [('22', '49'), ('57', '85'), ('106', '124'), ('134', '157'), ('163', '194'), ('197', '224'), ('236', '268')]
+INFO:root:Chain processed: D
+ Transdom: [('21', '49'), ('57', '85'), ('106', '125'), ('134', '157'), ('163', '194'), ('197', '223'), ('236', '269')]
+INFO:root:Chain processed: C
+ Transdom: [('21', '49'), ('58', '85'), ('106', '124'), ('134', '157'), ('163', '194'), ('197', '224'), ('236', '269')]
+INFO:root:Working with 1E0P
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('79', '102'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '217')]
+INFO:root:Working with 1KGB
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:NOPE, 1Q5I
+INFO:root:Working with 4QRY
+INFO:root:There are 4 chains with transmembrane dom: dict_keys(['A', 'B', 'D', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('34', '55'), ('240', '255')]
+INFO:root:Chain processed: B
+ Transdom: [('39', '55'), ('123', '139'), ('178', '196'), ('214', '232'), ('240', '256')]
+INFO:root:Chain processed: D
+ Transdom: [('39', '54')]
+INFO:root:Chain processed: C
+ Transdom: [('31', '46'), ('180', '195'), ('240', '256')]
+INFO:root:Working with 1F50
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 2ZZL
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '63'), ('79', '102'), ('104', '127'), ('130', '161'), ('164', '192'), ('200', '217')]
+INFO:root:Working with 1FBB
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '29'), ('36', '63'), ('79', '101'), ('104', '126'), ('130', '154'), ('164', '192'), ('200', '217')]
+INFO:root:Working with 1VGO
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('13', '36'), ('40', '66'), ('85', '107'), ('109', '132'), ('135', '159'), ('169', '196'), ('205', '230')]
+INFO:root:Chain processed: B
+ Transdom: [('13', '36'), ('40', '66'), ('85', '107'), ('109', '132'), ('135', '159'), ('169', '197'), ('205', '230')]
+INFO:root:Working with 3MBV
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 3UTW
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '34'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '161'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 1MGY
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('7', '32'), ('36', '64'), ('79', '102'), ('104', '128'), ('132', '154'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 4MD1
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '62'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 1QHJ
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('6', '32'), ('37', '58'), ('80', '100'), ('105', '127'), ('131', '160'), ('165', '191'), ('201', '224')]
+INFO:root:Working with 2I1X
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('36', '63'), ('80', '101'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '226')]
+INFO:root:Working with 3QBK
+INFO:root:There are 3 chains with transmembrane dom: dict_keys(['A', 'B', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('31', '57'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Chain processed: B
+ Transdom: [('31', '56'), ('61', '87'), ('121', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Chain processed: C
+ Transdom: [('31', '56'), ('61', '87'), ('120', '142'), ('145', '169'), ('172', '196'), ('207', '232'), ('240', '256')]
+INFO:root:Working with 1QM8
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '102'), ('104', '128'), ('133', '154'), ('164', '183'), ('200', '225')]
+INFO:root:Working with 1S54
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '160'), ('164', '192'), ('200', '225')]
+INFO:root:Chain processed: B
+ Transdom: [('9', '32'), ('36', '62'), ('80', '102'), ('104', '128'), ('130', '160'), ('164', '192'), ('200', '225')]
+INFO:root:Working with 1P8U
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('38', '62'), ('80', '102'), ('104', '128'), ('130', '155'), ('164', '192'), ('200', '224')]
+INFO:root:NOPE, 1TN0
+INFO:root:Working with 1BM1
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '31'), ('38', '62'), ('81', '100'), ('105', '127'), ('134', '155'), ('166', '191'), ('202', '223')]
+INFO:root:Working with 1KG8
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('9', '32'), ('36', '62'), ('79', '102'), ('104', '128'), ('130', '155'), ('167', '192'), ('200', '217')]
+INFO:root:NOPE, 4KNF
+INFO:root:Working with 2F93
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('3', '26'), ('33', '56'), ('70', '92'), ('94', '117'), ('121', '143'), ('153', '172'), ('189', '222')]
+INFO:root:Chain processed: B
+ Transdom: [('29', '49'), ('52', '79')]
+INFO:root:NOPE, 1PY6
+INFO:root:NOPE, 3COC
+INFO:root:Working with 1S8J
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('7', '32'), ('36', '64'), ('79', '101'), ('104', '128'), ('132', '162'), ('164', '192'), ('200', '226')]
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:Working with 2I35
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '89'), ('105', '140'), ('151', '169'), ('212', '233'), ('240', '278')]
+INFO:root:Working with 5F5D
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('94', '115'), ('147', '170'), ('170', '194'), ('200', '218'), ('226', '241')]
+INFO:root:Working with 1ZWI
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['C'])
+INFO:root:Chain processed: C
+ Transdom: [('23', '52'), ('85', '121')]
+INFO:root:Working with 2J4Y
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('111', '126'), ('149', '169'), ('246', '265')]
+INFO:root:Chain processed: A
+ Transdom: [('111', '126'), ('149', '169'), ('248', '278')]
+INFO:root:Working with 2LNL
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('37', '67'), ('74', '101'), ('107', '139'), ('148', '174'), ('207', '226'), ('239', '268')]
+INFO:root:Working with 2I37
+INFO:root:There are 3 chains with transmembrane dom: dict_keys(['B', 'A', 'C'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '50'), ('50', '65'), ('106', '137'), ('249', '278')]
+INFO:root:Chain processed: A
+ Transdom: [('33', '50'), ('50', '65'), ('106', '127'), ('249', '278')]
+INFO:root:Chain processed: C
+ Transdom: [('33', '50'), ('50', '65'), ('106', '121'), ('249', '278')]
+INFO:root:THE END
+
+
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:Working with 2I35
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '89'), ('105', '140'), ('151', '169'), ('212', '233'), ('240', '278')]
+INFO:root:Working with 5F5D
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('94', '115'), ('147', '170'), ('170', '194'), ('200', '218'), ('226', '241')]
+INFO:root:Working with 1ZWI
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['C'])
+INFO:root:Chain processed: C
+ Transdom: [('23', '52'), ('85', '121')]
+INFO:root:Working with 2J4Y
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('111', '126'), ('149', '169'), ('248', '278')]
+INFO:root:Chain processed: B
+ Transdom: [('111', '126'), ('149', '169'), ('246', '265')]
+INFO:root:Working with 2LNL
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('37', '67'), ('74', '101'), ('107', '139'), ('148', '174'), ('207', '226'), ('239', '268')]
+INFO:root:Working with 2I37
+INFO:root:There are 3 chains with transmembrane dom: dict_keys(['A', 'B', 'C'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '50'), ('50', '65'), ('106', '127'), ('249', '278')]
+INFO:root:Chain processed: B
+ Transdom: [('33', '50'), ('50', '65'), ('106', '137'), ('249', '278')]
+INFO:root:Chain processed: C
+ Transdom: [('33', '50'), ('50', '65'), ('106', '121'), ('249', '278')]
+INFO:root:THE END
+
+
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:Working with 2I35
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '89'), ('105', '140'), ('151', '169'), ('212', '233'), ('240', '278')]
+INFO:root:Working with 5F5D
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('94', '115'), ('147', '170'), ('170', '194'), ('200', '218'), ('226', '241')]
+INFO:root:Working with 1ZWI
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['C'])
+INFO:root:Chain processed: C
+ Transdom: [('23', '52'), ('85', '121')]
+INFO:root:Working with 2J4Y
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('111', '126'), ('149', '169'), ('246', '265')]
+INFO:root:Chain processed: A
+ Transdom: [('111', '126'), ('149', '169'), ('248', '278')]
+INFO:root:Working with 2LNL
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('37', '67'), ('74', '101'), ('107', '139'), ('148', '174'), ('207', '226'), ('239', '268')]
+INFO:root:Working with 2I37
+INFO:root:There are 3 chains with transmembrane dom: dict_keys(['B', 'A', 'C'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '50'), ('50', '65'), ('106', '137'), ('249', '278')]
+INFO:root:Chain processed: A
+ Transdom: [('33', '50'), ('50', '65'), ('106', '127'), ('249', '278')]
+INFO:root:Chain processed: C
+ Transdom: [('33', '50'), ('50', '65'), ('106', '121'), ('249', '278')]
+INFO:root:THE END
+
+
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:Working with 2I35
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '89'), ('105', '140'), ('151', '169'), ('212', '233'), ('240', '278')]
+INFO:root:Working with 5F5D
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('94', '115'), ('147', '170'), ('170', '194'), ('200', '218'), ('226', '241')]
+INFO:root:Working with 1ZWI
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['C'])
+INFO:root:Chain processed: C
+ Transdom: [('23', '52'), ('85', '121')]
+INFO:root:Working with 2J4Y
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('111', '126'), ('149', '169'), ('248', '278')]
+INFO:root:Chain processed: B
+ Transdom: [('111', '126'), ('149', '169'), ('246', '265')]
+INFO:root:Working with 2LNL
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('37', '67'), ('74', '101'), ('107', '139'), ('148', '174'), ('207', '226'), ('239', '268')]
+INFO:root:Working with 2I37
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:Working with 2I35
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '89'), ('105', '140'), ('151', '169'), ('212', '233'), ('240', '278')]
+INFO:root:Working with 5F5D
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('94', '115'), ('147', '170'), ('170', '194'), ('200', '218'), ('226', '241')]
+INFO:root:Working with 1ZWI
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['C'])
+INFO:root:Chain processed: C
+ Transdom: [('23', '52'), ('85', '121')]
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:Working with 2I35
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '89'), ('105', '140'), ('151', '169'), ('212', '233'), ('240', '278')]
+INFO:root:Working with 5F5D
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('94', '115'), ('147', '170'), ('170', '194'), ('200', '218'), ('226', '241')]
+INFO:root:Working with 1ZWI
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['C'])
+INFO:root:Chain processed: C
+ Transdom: [('23', '52'), ('85', '121')]
+INFO:root:THE END
+
+
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['A', 'B'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:NOPE, 1U19
+INFO:root:Working with 2I35
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '89'), ('105', '140'), ('151', '169'), ('212', '233'), ('240', '278')]
+INFO:root:
+
+New running
+INFO:root:Processing a dir
+INFO:root:Working with 1U19
+INFO:root:There are 2 chains with transmembrane dom: dict_keys(['B', 'A'])
+INFO:root:Chain processed: B
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('247', '277')]
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '90'), ('105', '140'), ('149', '169'), ('241', '278')]
+INFO:root:Working with 2I35
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('33', '65'), ('70', '89'), ('105', '140'), ('151', '169'), ('212', '233'), ('240', '278')]
+INFO:root:Working with 5F5D
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['A'])
+INFO:root:Chain processed: A
+ Transdom: [('94', '115'), ('147', '170'), ('170', '194'), ('200', '218'), ('226', '241')]
+INFO:root:Working with 1ZWI
+INFO:root:There are 1 chains with transmembrane dom: dict_keys(['C'])
+INFO:root:Chain processed: C
+ Transdom: [('23', '52'), ('85', '121')]
+INFO:root:THE END
+
+
