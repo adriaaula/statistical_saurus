@@ -17,7 +17,7 @@ def determine_transmembrane_domains(filename):
     mmcif_dict = MMCIF2Dict(filename)
     beg_helix = mmcif_dict['_struct_conf.beg_auth_seq_id']
     end_helix = mmcif_dict['_struct_conf.end_auth_seq_id']
-    chaino = mmcif_dict['_struct_conf.end_auth_asym_id']
+    chaino = mmcif_dict['_struct_conf.beg_label_asym_id']
 
     for c in range(len(beg_helix)):
         if int(end_helix[c]) - int(beg_helix[c]) <= 14:
@@ -82,6 +82,38 @@ def calculate_distance(res1, res2, chain, chain2):
     return distance
 
 
+def select_and_save_distances(beg_helix1,end_helix1,
+                              beg_helix2,end_helix2,
+                              chain1,chain2, transdom_intra_distances,
+                              transdom_aa_freq):
+    for res1 in range(beg_helix1, end_helix1 + 1):
+        try:
+            res_name1 = chain1[res1].get_resname()
+        except KeyError as e:
+            continue
+
+        for res2 in range(beg_helix2, end_helix2 + 1):
+            if res1 == res2:
+                continue
+            try:
+                res_name2 = chain2[res2].get_resname()
+            except KeyError as e:
+                continue
+
+            distance = calculate_distance(res1, res2, chain1, chain2)
+            if distance %1  >= 0.5:
+                distance = round(distance)
+            else:
+                distance = distance - (distance % 1)
+                distance = round(distance) + 0.5
+
+            save_results_dict(res_name1, res_name2,
+                              distance, transdom_intra_distances,
+                              transdom_aa_freq)
+
+
+
+
 def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_freq):
     """
     Saves the results of the distances and the frequency in the designed dict.
@@ -89,13 +121,16 @@ def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_
     """
     # Check if the entry of the 2 aa has been generated reversely!
     if (res_name2, res_name1) in dict_name_dist:
-        dict_name_dist[(res_name2, res_name1)].append(distance)
+        dict_name_dist[(res_name2, res_name1)].setdefault(distance, 0)
+        dict_name_dist[(res_name2, res_name1)][distance] += 1
         return
     # Save results into a dict-list
-    dict_name_dist.setdefault((res_name1, res_name2), [])
-    dict_name_dist[(res_name1, res_name2)].append(distance)
+    dict_name_dist.setdefault((res_name1, res_name2), {})
+    dict_name_dist[(res_name1, res_name2)].setdefault(distance, 0)
+    dict_name_dist[(res_name1, res_name2)][distance] += 1
     dict_name_freq.setdefault(res_name1, 0)
     dict_name_freq[res_name1] += 1
+
 
 
 def print_results(dict_results, outputname):
@@ -126,17 +161,22 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = No
         transdom_intra_distances = {}
         transdom_aa_freq = {}
     else:
-        print('hola')
         transdom_intra_distances = tuple_dict[0]
         transdom_inter_distances = tuple_dict[1]
         transdom_aa_freq = tuple_dict[2]
 
     # Select the file and generate a structure var with all the pdb inside
     mmcif_dict = MMCIF2Dict(filename)
-    entity = MMCIFParser()
-    structure = entity.get_structure(mmcif_dict['_entry.id'], filename)
-    logging.info('Working with {}'.format(mmcif_dict['_entry.id']))
-    model = structure[0]
+    try:
+        entity = MMCIFParser()
+        structure = entity.get_structure(mmcif_dict['_entry.id'], filename)
+        logging.info('Working with {}'.format(mmcif_dict['_entry.id']))
+        model = structure[0]
+
+    except:
+        logging.info('NOPE, {}'.format(mmcif_dict['_entry.id']))
+        return (transdom_intra_distances,transdom_inter_distances,transdom_aa_freq)
+
 
     transmembrane_dict = determine_transmembrane_domains(filename)
 
@@ -147,30 +187,20 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = No
             beg_helix1, end_helix1 = int(val[0]), int(val[1])
 
             # ################INTRA DISTANCES ####################################
-            for res1 in range(beg_helix1, end_helix1 + 1):
-                for res2 in range(beg_helix1, end_helix1 + 1):
-                    if res1 == res2:
-                        continue
-                    res_name1 = chain1[res1].get_resname()
-                    res_name2 = chain1[res2].get_resname()
-                    distance = calculate_distance(res1, res2, chain1, chain1)
-                    save_results_dict(res_name1, res_name2,
-                                      distance, transdom_intra_distances,
+            select_and_save_distances(beg_helix1,end_helix1,
+                                      beg_helix1,end_helix1,
+                                      chain1,chain1, transdom_intra_distances,
                                       transdom_aa_freq)
+
             # #######################INTER DISTANCES SAME CHAIN  ##############################
             for val2 in value:
                 if val == val2:
                     continue
                 beg_helix2, end_helix2 = int(val2[0]), int(val2[1])
-                for res1 in range(beg_helix1, end_helix1 + 1):
-                    for res2 in range(beg_helix2, end_helix2 + 1):
-                        res_name1 = chain1[res1].get_resname()
-                        res_name2 = chain1[res2].get_resname()
-                        distance = calculate_distance(res1, res2, chain1, chain1)
-                        save_results_dict(  res_name1, res_name2,
-                                            distance, transdom_inter_distances,
-                                            transdom_aa_freq)
-
+                select_and_save_distances(beg_helix1,end_helix1,
+                                          beg_helix2,end_helix2,
+                                          chain1,chain1, transdom_inter_distances,
+                                          transdom_aa_freq)
 
         # #######################INTER DISTANCES BTWN CHAIN  ########################
             for key, value in transmembrane_dict.items():
@@ -179,15 +209,10 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = No
                     continue
                 for val3 in value:
                     beg_helix3, end_helix3 = int(val3[0]), int(val3[1])
-                    for res1 in range(beg_helix1, end_helix1 + 1):
-                        for res2 in range(beg_helix3, end_helix3 + 1):
-                            res_name1 = chain1[res1].get_resname()
-                            res_name2 = chain2[res2].get_resname()
-                            distance = calculate_distance(res1, res2, chain1, chain2)
-                            save_results_dict(  res_name1, res_name2,
-                                                distance, transdom_inter_distances,
-                                                transdom_aa_freq)
-
+                    select_and_save_distances(beg_helix1,end_helix1,
+                                              beg_helix3,end_helix3,
+                                              chain1,chain2, transdom_inter_distances,
+                                              transdom_aa_freq)
 
     if filename == input_path:
         print_results(transdom_intra_distances, outputname)
@@ -200,7 +225,7 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = No
 if __name__ == "__main__":
     import os
 
-    logging.basicConfig(filename=("log_record_" + sys.argv[0]), level=logging.INFO)
+    logging.basicConfig(filename=("log_record_" + sys.argv[0] + ".txt"), level=logging.INFO)
     logging.info('\n\nNew running')
     tuple_dict = None
 
