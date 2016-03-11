@@ -1,6 +1,7 @@
 import sys
 import urllib
 import logging
+import pickle
 from Bio.PDB import *
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
 from Bio.PDB.PDBIO import PDBIO
@@ -19,6 +20,7 @@ def determine_transmembrane_domains(filename):
     end_helix = mmcif_dict['_struct_conf.end_auth_seq_id']
     chaino = mmcif_dict['_struct_conf.beg_label_asym_id']
 
+    #Saves each of the transmembrane domains in dict with each chain as key.
     for c in range(len(beg_helix)):
         if int(end_helix[c]) - int(beg_helix[c]) <= 14:
             continue
@@ -85,7 +87,9 @@ def calculate_distance(res1, res2, chain, chain2):
 def select_and_save_distances(beg_helix1,end_helix1,
                               beg_helix2,end_helix2,
                               chain1,chain2, transdom_intra_distances,
-                              transdom_aa_freq):
+                              transdom_aa_freq, transdom_dist_freq):
+    # Compares the positions of each chain and within.
+    # Checks if the residue has name, some of them are empty
     for res1 in range(beg_helix1, end_helix1 + 1):
         try:
             res_name1 = chain1[res1].get_resname()
@@ -109,12 +113,11 @@ def select_and_save_distances(beg_helix1,end_helix1,
 
             save_results_dict(res_name1, res_name2,
                               distance, transdom_intra_distances,
-                              transdom_aa_freq)
+                              transdom_aa_freq,
+                              transdom_dist_freq)
 
 
-
-
-def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_freq):
+def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_freq,dict_freq_dist):
     """
     Saves the results of the distances and the frequency in the designed dict.
     The frequency dict is given by default, not necessary to definite it
@@ -123,20 +126,25 @@ def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_
     if (res_name2, res_name1) in dict_name_dist:
         dict_name_dist[(res_name2, res_name1)].setdefault(distance, 0)
         dict_name_dist[(res_name2, res_name1)][distance] += 1
+        dict_name_dist[(res_name2, res_name1)][999] += 1
         return
     # Save results into a dict-list
     dict_name_dist.setdefault((res_name1, res_name2), {})
     dict_name_dist[(res_name1, res_name2)].setdefault(distance, 0)
     dict_name_dist[(res_name1, res_name2)][distance] += 1
+    dict_name_dist[(res_name1, res_name2)].setdefault(999, 0)
+    dict_name_dist[(res_name1, res_name2)][999] += 1
+
     dict_name_freq.setdefault(res_name1, 0)
     dict_name_freq[res_name1] += 1
-
+    dict_freq_dist.setdefault(distance,0)
+    dict_freq_dist[distance] += 1
 
 
 def print_results(dict_results, outputname):
     """
     Prints the results with the specified format. Default separation
-    is tabs!
+    is tabs! Not working right now.
     """
     result_ouput = open(outputname, "w")
 
@@ -148,22 +156,24 @@ def print_results(dict_results, outputname):
         result_ouput.write(string)
     result_ouput.close()
 
-def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = None):
+def obtain_distances_freq_CIF(filename, tuple_dict = None):
 
     """
     Calculates intra and inter distances of transmembrane domains present in
     the protein.
     Returns dataset of distances for all the proteins analysed.
     """
-    # When working with the
+    # Needed when processing multiple files of a dir.
     if tuple_dict == None:
         transdom_inter_distances = {}
         transdom_intra_distances = {}
         transdom_aa_freq = {}
+        transdom_dist_freq = {}
     else:
         transdom_intra_distances = tuple_dict[0]
         transdom_inter_distances = tuple_dict[1]
         transdom_aa_freq = tuple_dict[2]
+        transdom_dist_freq = tuple_dict[3]
 
     # Select the file and generate a structure var with all the pdb inside
     mmcif_dict = MMCIF2Dict(filename)
@@ -175,7 +185,7 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = No
 
     except:
         logging.info('NOPE, {}'.format(mmcif_dict['_entry.id']))
-        return (transdom_intra_distances,transdom_inter_distances,transdom_aa_freq)
+        return (transdom_intra_distances,transdom_inter_distances,transdom_aa_freq, transdom_dist_freq)
 
 
     transmembrane_dict = determine_transmembrane_domains(filename)
@@ -190,9 +200,10 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = No
             select_and_save_distances(beg_helix1,end_helix1,
                                       beg_helix1,end_helix1,
                                       chain1,chain1, transdom_intra_distances,
-                                      transdom_aa_freq)
+                                      transdom_aa_freq,
+                                      transdom_dist_freq)
 
-            # #######################INTER DISTANCES SAME CHAIN  ##############################
+            # ################INTER DISTANCES SAME CHAIN  ##############################
             for val2 in value:
                 if val == val2:
                     continue
@@ -200,9 +211,10 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = No
                 select_and_save_distances(beg_helix1,end_helix1,
                                           beg_helix2,end_helix2,
                                           chain1,chain1, transdom_inter_distances,
-                                          transdom_aa_freq)
+                                          transdom_aa_freq,
+                                          transdom_dist_freq)
 
-        # #######################INTER DISTANCES BTWN CHAIN  ########################
+            # ################INTER DISTANCES BTWN CHAIN  ########################
             for key, value in transmembrane_dict.items():
                 chain2 = model[key]
                 if chain1 == chain2:
@@ -212,14 +224,29 @@ def obtain_distances_freq_CIF(filename, outputname, outputname2, tuple_dict = No
                     select_and_save_distances(beg_helix1,end_helix1,
                                               beg_helix3,end_helix3,
                                               chain1,chain2, transdom_inter_distances,
-                                              transdom_aa_freq)
-
-    if filename == input_path:
-        print_results(transdom_intra_distances, outputname)
-        print_results(transdom_inter_distances, outputname2)
+                                              transdom_aa_freq,
+                                              transdom_dist_freq)
 
     else:
-        return (transdom_intra_distances,transdom_inter_distances,transdom_aa_freq)
+        return (transdom_intra_distances,transdom_inter_distances,transdom_aa_freq,transdom_dist_freq)
+
+
+def total_division_and_pickling(tuple_dict):
+    """Final changes to the dict to have the normalized value division, with probabilities"""
+
+    list_of_dict = list(tuple_dict)
+
+    transdom_inter_distances = list_of_dict[1]
+    for dires,value in transdom_inter_distances.items():
+        for dist,count in value.items():
+            transdom_inter_distances[dires][dist] = transdom_inter_distances[dires][dist] / transdom_inter_distances[dires][999]
+
+    list_of_dict[1] = transdom_inter_distances
+    tuple_dict = list_of_dict
+
+    pickle.dump(tuple_dict, open( "dicts_baby.p", "wb" ) )
+    logging.info('THE END\n\n')
+    exit()
 
 
 if __name__ == "__main__":
@@ -229,26 +256,19 @@ if __name__ == "__main__":
     logging.info('\n\nNew running')
     tuple_dict = None
 
-    if len(sys.argv) == 4:
-        output2 = sys.argv[3]
-        output = sys.argv[2]
+    if len(sys.argv) == 2:
         input_path = sys.argv[1]
-        if os.path.isfile(input_path):
-            logging.info('Processing a file')
-            obtain_distances_freq_CIF(input_path, output, output2)
-        elif os.path.isdir(input_path):
+        if os.path.isdir(input_path):
             logging.info('Processing a dir')
-            dir_to_process = os.getcwd() + '/' + input_path
+            dir_to_process = input_path
             for file_dir in os.listdir(dir_to_process):
                 file_dir = os.path.join(dir_to_process, file_dir)
                 if tuple_dict != None:
-                    tuple_dict = obtain_distances_freq_CIF(file_dir, output, output2,tuple_dict)
+                    tuple_dict = obtain_distances_freq_CIF(file_dir,tuple_dict)
                 else:
-                    tuple_dict = obtain_distances_freq_CIF(file_dir, output, output2)
+                    tuple_dict = obtain_distances_freq_CIF(file_dir)
 
-            print_results(tuple_dict[0], output)
-            print_results(tuple_dict[1], output2)
+        total_division_and_pickling(tuple_dict)
 
-        exit()
     else:
-        raise ValueError("TREX: Please specify input [1], output (intra_distances [2] and inter_distances [3]) ")
+        raise ValueError("TREX: Please specify input [1]")
