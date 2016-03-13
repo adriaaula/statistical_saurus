@@ -1,5 +1,7 @@
 import sys
 import urllib
+import os
+from time import gmtime, strftime
 import logging
 import pickle
 from Bio.PDB import *
@@ -127,7 +129,12 @@ def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_
         dict_name_dist[(res_name2, res_name1)].setdefault(distance, 0)
         dict_name_dist[(res_name2, res_name1)][distance] += 1
         dict_name_dist[(res_name2, res_name1)][999] += 1
+        dict_name_freq.setdefault(res_name1, 0)
+        dict_name_freq[res_name1] += 1
+        dict_freq_dist.setdefault(distance,0)
+        dict_freq_dist[distance] += 1
         return
+
     # Save results into a dict-list
     dict_name_dist.setdefault((res_name1, res_name2), {})
     dict_name_dist[(res_name1, res_name2)].setdefault(distance, 0)
@@ -139,7 +146,7 @@ def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_
     dict_name_freq[res_name1] += 1
     dict_freq_dist.setdefault(distance,0)
     dict_freq_dist[distance] += 1
-
+    return
 
 def print_results(dict_results, outputname):
     """
@@ -156,79 +163,83 @@ def print_results(dict_results, outputname):
         result_ouput.write(string)
     result_ouput.close()
 
-def obtain_distances_freq_CIF(filename, tuple_dict = None):
+def obtain_distances_freq_CIF(directory):
 
     """
     Calculates intra and inter distances of transmembrane domains present in
     the protein.
     Returns dataset of distances for all the proteins analysed.
     """
-    # Needed when processing multiple files of a dir.
-    if tuple_dict == None:
-        transdom_inter_distances = {}
-        transdom_intra_distances = {}
-        transdom_aa_freq = {}
-        transdom_dist_freq = {}
-    else:
-        transdom_intra_distances = tuple_dict[0]
-        transdom_inter_distances = tuple_dict[1]
-        transdom_aa_freq = tuple_dict[2]
-        transdom_dist_freq = tuple_dict[3]
-
-    # Select the file and generate a structure var with all the pdb inside
-    mmcif_dict = MMCIF2Dict(filename)
-    try:
-        entity = MMCIFParser()
-        structure = entity.get_structure(mmcif_dict['_entry.id'], filename)
-        logging.info('Working with {}'.format(mmcif_dict['_entry.id']))
-        model = structure[0]
-
-    except:
-        logging.info('NOPE, {}'.format(mmcif_dict['_entry.id']))
-        return (transdom_intra_distances,transdom_inter_distances,transdom_aa_freq, transdom_dist_freq)
+    transdom_inter_distances = {}
+    transdom_intra_distances = {}
+    transdom_aa_freq = {}
+    transdom_dist_freq = {}
 
 
-    transmembrane_dict = determine_transmembrane_domains(filename)
+    logging.info('Processing the following dir: {}'.format(directory))
+    for file_dir in os.listdir(directory):
+        file_dir = os.path.join(directory, file_dir)
+        filename = file_dir
 
-    for key, value in transmembrane_dict.items():
-        logging.info('Chain processed: {}\n Transdom: {}'.format(key, value))
-        chain1 = model[key]
-        for val in value:
-            beg_helix1, end_helix1 = int(val[0]), int(val[1])
+        # Select the file and generate a structure var with all the pdb inside.
+        #SOmetimes there is no option to generate the structure due to PDB files errors.
+        mmcif_dict = MMCIF2Dict(filename)
+        try:
+            entity = MMCIFParser()
+            structure = entity.get_structure(mmcif_dict['_entry.id'], filename)
+            logging.info('Working with {}'.format(mmcif_dict['_entry.id']))
+            model = structure[0]
 
-            # ################INTRA DISTANCES ####################################
-            select_and_save_distances(beg_helix1,end_helix1,
-                                      beg_helix1,end_helix1,
-                                      chain1,chain1, transdom_intra_distances,
-                                      transdom_aa_freq,
-                                      transdom_dist_freq)
+        except:
+            logging.info('NOPE, {}'.format(mmcif_dict['_entry.id']))
+            continue
 
-            # ################INTER DISTANCES SAME CHAIN  ##############################
-            for val2 in value:
-                if val == val2:
-                    continue
-                beg_helix2, end_helix2 = int(val2[0]), int(val2[1])
+        #CHeck if the protein has helix domains.
+        try:
+            transmembrane_dict = determine_transmembrane_domains(filename)
+        except:
+            continue
+
+        for key, value in transmembrane_dict.items():
+            logging.info('Chain processed: {}\n Transdom: {}'.format(key, value))
+            chain1 = model[key]
+            for val in value:
+                beg_helix1, end_helix1 = int(val[0]), int(val[1])
+
+                # ################INTRA DISTANCES ####################################
                 select_and_save_distances(beg_helix1,end_helix1,
-                                          beg_helix2,end_helix2,
-                                          chain1,chain1, transdom_inter_distances,
+                                          beg_helix1,end_helix1,
+                                          chain1,chain1, transdom_intra_distances,
                                           transdom_aa_freq,
                                           transdom_dist_freq)
 
-            # ################INTER DISTANCES BTWN CHAIN  ########################
-            for key, value in transmembrane_dict.items():
-                chain2 = model[key]
-                if chain1 == chain2:
-                    continue
-                for val3 in value:
-                    beg_helix3, end_helix3 = int(val3[0]), int(val3[1])
+                # ################INTER DISTANCES SAME CHAIN  ##############################
+                for val2 in value:
+                    if val == val2:
+                        continue
+                    beg_helix2, end_helix2 = int(val2[0]), int(val2[1])
                     select_and_save_distances(beg_helix1,end_helix1,
-                                              beg_helix3,end_helix3,
-                                              chain1,chain2, transdom_inter_distances,
+                                              beg_helix2,end_helix2,
+                                              chain1,chain1, transdom_inter_distances,
                                               transdom_aa_freq,
                                               transdom_dist_freq)
 
-    else:
-        return (transdom_intra_distances,transdom_inter_distances,transdom_aa_freq,transdom_dist_freq)
+                # ################INTER DISTANCES BTWN CHAIN  ########################
+                for key, value in transmembrane_dict.items():
+                    chain2 = model[key]
+                    if chain1 == chain2:
+                        continue
+                    for val3 in value:
+                        beg_helix3, end_helix3 = int(val3[0]), int(val3[1])
+                        select_and_save_distances(beg_helix1,end_helix1,
+                                                  beg_helix3,end_helix3,
+                                                  chain1,chain2, transdom_inter_distances,
+                                                  transdom_aa_freq,
+                                                  transdom_dist_freq)
+
+
+    tuple_dict = transdom_intra_distances,transdom_inter_distances,transdom_aa_freq,transdom_dist_freq
+    total_division_and_pickling(tuple_dict)
 
 
 def total_division_and_pickling(tuple_dict):
@@ -239,6 +250,8 @@ def total_division_and_pickling(tuple_dict):
     transdom_inter_distances = list_of_dict[1]
     for dires,value in transdom_inter_distances.items():
         for dist,count in value.items():
+            if dist == 999:
+                continue
             transdom_inter_distances[dires][dist] = transdom_inter_distances[dires][dist] / transdom_inter_distances[dires][999]
 
     list_of_dict[1] = transdom_inter_distances
@@ -250,25 +263,16 @@ def total_division_and_pickling(tuple_dict):
 
 
 if __name__ == "__main__":
-    import os
+
 
     logging.basicConfig(filename=("log_record_" + sys.argv[0] + ".txt"), level=logging.INFO)
-    logging.info('\n\nNew running')
-    tuple_dict = None
-
-    if len(sys.argv) == 2:
-        input_path = sys.argv[1]
-        if os.path.isdir(input_path):
-            logging.info('Processing a dir')
-            dir_to_process = input_path
-            for file_dir in os.listdir(dir_to_process):
-                file_dir = os.path.join(dir_to_process, file_dir)
-                if tuple_dict != None:
-                    tuple_dict = obtain_distances_freq_CIF(file_dir,tuple_dict)
-                else:
-                    tuple_dict = obtain_distances_freq_CIF(file_dir)
-
-        total_division_and_pickling(tuple_dict)
+    logging.info('\n\nNew running: ' + strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()))
+    if len(sys.argv) >= 1:
+        dir_path = sys.argv[1]
+        if os.path.isdir(dir_path):
+            obtain_distances_freq_CIF(dir_path)
+        else:
+            raise ValueError("We only work with directory files sir.")
 
     else:
         raise ValueError("TREX: Please specify input [1]")

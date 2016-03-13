@@ -1,4 +1,6 @@
 import pickle
+from generate_distances_freq_dict import *
+from membranosaurus import * 
 
 tuple_dict = pickle.load( open( "dicts_baby.p", "rb" ))
 
