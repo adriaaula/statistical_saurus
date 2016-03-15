@@ -1,6 +1,9 @@
 import sys
 import urllib
 import os
+import zipfile
+import time
+import pexpect
 from time import gmtime, strftime
 import logging
 import pickle
@@ -16,22 +19,89 @@ def determine_transmembrane_domains(filename):
     uniprot to determine if it is a transmembrane domain or not. TO DO
     Returns a dictionary with the transmembrane domains separated by chain
     """
-    chain_helix_domains = {}
+    def topconn_run(seq):
+        fasta = open('topconn_domains/fasta_PDB.fasta', 'w')
+        fasta.write('>FASTA_domains\n')
+        fasta.write(seq)
+        fasta.close()
+
+        child = pexpect.spawn('python topcons2_wsdl.py -m submit -seq topconn_domains/fasta_PDB.fasta')
+        child.expect ('jobid = * ')
+        id_job = child.readline()
+        id_job = str(id_job[0:-2])
+        id_job = id_job[2:-1]
+
+        time.sleep(50)
+
+        x = 0
+        while x != 1:
+            time.sleep(20)
+            child2 = pexpect.spawn('python topcons2_wsdl.py -m get -outpath topconn_domains  -jobid ' + id_job)
+            result= child2.readlines()
+            result = str(result)
+            if 'Wait' in result:
+                print('00000hhh damm')
+                continue
+            else:
+                print('ualaaaaaa')
+                print(result)
+                x = 1
+
+        match = None
+        with zipfile.ZipFile('topconn_domains/' + id_job + '.zip') as dom_file:
+            with dom_file.open(id_job + '/query.result.txt') as myfile:
+                for line in myfile.readlines():
+                    line = line.decode('utf8')
+                    if 'TOPCONS predicted topology' in line:
+                        match = 'YEY'
+                        continue
+                    if match ==  'YEY':
+                        trans_pred = line
+                        print(trans_pred)
+                        break
+        index = 0
+        tm = None
+        dom = []
+        for aa in trans_pred:
+            index += 1
+            if aa == 'M' and tm == None:
+                dom.append(index)
+                tm = 'counting'
+            if aa != 'M' and tm == 'counting':
+                dom.append(index-1)
+                yield tuple(dom)
+                dom = []
+                tm = None
+
+
+    chain_trans_dom = {}
+
     mmcif_dict = MMCIF2Dict(filename)
-    beg_helix = mmcif_dict['_struct_conf.beg_auth_seq_id']
-    end_helix = mmcif_dict['_struct_conf.end_auth_seq_id']
-    chaino = mmcif_dict['_struct_conf.beg_label_asym_id']
+    chains = mmcif_dict['_entity_poly.pdbx_strand_id']
+    seqs = mmcif_dict['_struct_ref.pdbx_seq_one_letter_code']
 
-    #Saves each of the transmembrane domains in dict with each chain as key.
-    for c in range(len(beg_helix)):
-        if int(end_helix[c]) - int(beg_helix[c]) <= 14:
-            continue
-        chain_helix_domains.setdefault((chaino[c]), [])
-        chain_helix_domains[chaino[c]].append((beg_helix[c], end_helix[c]))
+    if type(seqs) == list:
+        index = 0
+        for seq in seqs:
+            index += 1
+            for dom in topconn_run(seq):
+                list_chains = chains[i].split(",")
+                list_chains = filter(None, list_chains)
+                for lett in list_chains:
+                    chain_trans_dom.setdefault(lett, []).append(dom)
 
-    logging.info('There are {} chains with transmembrane dom: {}'.format(len(chain_helix_domains),
-                                                                         chain_helix_domains.keys()))
-    return chain_helix_domains
+    else:
+        for dom in topconn_run(seqs):
+            list_chains = chains.split(",")
+            list_chains = filter(None, list_chains)
+            for lett in list_chains:
+                chain_trans_dom.setdefault(lett, []).append(dom)
+
+    print(chain_trans_dom)
+
+    logging.info('There are {} chains with transmembrane dom: {}'.format(len(chain_trans_dom),
+                                                                         chain_trans_dom.keys()))
+    return chain_trans_dom
 
 
 def calculate_distance(res1, res2, chain, chain2):
@@ -92,6 +162,10 @@ def select_and_save_distances(beg_helix1,end_helix1,
                               transdom_aa_freq, transdom_dist_freq):
     # Compares the positions of each chain and within.
     # Checks if the residue has name, some of them are empty
+    if chain1 is chain2:
+        if beg_helix1 is beg_helix2:
+            beg_helix2 += 5
+
     for res1 in range(beg_helix1, end_helix1 + 1):
         try:
             res_name1 = chain1[res1].get_resname()
@@ -195,10 +269,8 @@ def obtain_distances_freq_CIF(directory):
             continue
 
         #CHeck if the protein has helix domains.
-        try:
-            transmembrane_dict = determine_transmembrane_domains(filename)
-        except:
-            continue
+
+        transmembrane_dict = determine_transmembrane_domains(filename)
 
         for key, value in transmembrane_dict.items():
             logging.info('Chain processed: {}\n Transdom: {}'.format(key, value))
@@ -207,12 +279,13 @@ def obtain_distances_freq_CIF(directory):
                 beg_helix1, end_helix1 = int(val[0]), int(val[1])
 
                 # ################INTRA DISTANCES ####################################
+
                 select_and_save_distances(beg_helix1,end_helix1,
                                           beg_helix1,end_helix1,
                                           chain1,chain1, transdom_intra_distances,
                                           transdom_aa_freq,
                                           transdom_dist_freq)
-
+                                          
                 # ################INTER DISTANCES SAME CHAIN  ##############################
                 for val2 in value:
                     if val == val2:
