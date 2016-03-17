@@ -1,107 +1,15 @@
 import sys
 import urllib
 import os
+import re
 import zipfile
 import time
-import pexpect
 from time import gmtime, strftime
 import logging
 import pickle
 from Bio.PDB import *
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
-from Bio.PDB.PDBIO import PDBIO
 from numpy import *
-
-
-def determine_transmembrane_domains(filename):
-    """
-    Compares the helix domains in PDB with the transmembrane domains in
-    uniprot to determine if it is a transmembrane domain or not. TO DO
-    Returns a dictionary with the transmembrane domains separated by chain
-    """
-    def topconn_run(seq):
-        fasta = open('topconn_domains/fasta_PDB.fasta', 'w')
-        fasta.write('>FASTA_domains\n')
-        fasta.write(seq)
-        fasta.close()
-
-        child = pexpect.spawn('python topcons2_wsdl.py -m submit -seq topconn_domains/fasta_PDB.fasta')
-        child.expect ('jobid = * ')
-        id_job = child.readline()
-        id_job = str(id_job[0:-2])
-        id_job = id_job[2:-1]
-
-        time.sleep(50)
-
-        x = 0
-        while x != 1:
-            time.sleep(20)
-            child2 = pexpect.spawn('python topcons2_wsdl.py -m get -outpath topconn_domains  -jobid ' + id_job)
-            result= child2.readlines()
-            result = str(result)
-            if 'Wait' in result:
-                print('00000hhh damm')
-                continue
-            else:
-                print('ualaaaaaa')
-                print(result)
-                x = 1
-
-        match = None
-        with zipfile.ZipFile('topconn_domains/' + id_job + '.zip') as dom_file:
-            with dom_file.open(id_job + '/query.result.txt') as myfile:
-                for line in myfile.readlines():
-                    line = line.decode('utf8')
-                    if 'TOPCONS predicted topology' in line:
-                        match = 'YEY'
-                        continue
-                    if match ==  'YEY':
-                        trans_pred = line
-                        print(trans_pred)
-                        break
-        index = 0
-        tm = None
-        dom = []
-        for aa in trans_pred:
-            index += 1
-            if aa == 'M' and tm == None:
-                dom.append(index)
-                tm = 'counting'
-            if aa != 'M' and tm == 'counting':
-                dom.append(index-1)
-                yield tuple(dom)
-                dom = []
-                tm = None
-
-
-    chain_trans_dom = {}
-
-    mmcif_dict = MMCIF2Dict(filename)
-    chains = mmcif_dict['_entity_poly.pdbx_strand_id']
-    seqs = mmcif_dict['_struct_ref.pdbx_seq_one_letter_code']
-
-    if type(seqs) == list:
-        index = 0
-        for seq in seqs:
-            index += 1
-            for dom in topconn_run(seq):
-                list_chains = chains[i].split(",")
-                list_chains = filter(None, list_chains)
-                for lett in list_chains:
-                    chain_trans_dom.setdefault(lett, []).append(dom)
-
-    else:
-        for dom in topconn_run(seqs):
-            list_chains = chains.split(",")
-            list_chains = filter(None, list_chains)
-            for lett in list_chains:
-                chain_trans_dom.setdefault(lett, []).append(dom)
-
-    print(chain_trans_dom)
-
-    logging.info('There are {} chains with transmembrane dom: {}'.format(len(chain_trans_dom),
-                                                                         chain_trans_dom.keys()))
-    return chain_trans_dom
 
 
 def calculate_distance(res1, res2, chain, chain2):
@@ -112,46 +20,50 @@ def calculate_distance(res1, res2, chain, chain2):
 
     res_name1 = chain[res1].get_resname()
     res_name2 = chain2[res2].get_resname()
-
-    if res_name1 == 'GLY':
-        # get atom coordinates as vectors
-        n = chain[res1]['N'].get_vector()
-        c = chain[res1]['C'].get_vector()
-        ca = chain[res1]['CA'].get_vector()
-        # center at origin
-        n = n - ca
-        c = c - ca
-        # find rotation matrix that rotates n -120 degrees along the ca-c vector
-        rot = rotaxis(-pi * 120.0 / 180.0, c)
-        # apply rotation to ca-n vector
-        cb_at_origin = n.left_multiply(rot)
-        # put on top of ca atom
-        cb1 = cb_at_origin + ca
-    if res_name2 == 'GLY':
-        # get atom coordinates as vectors
-        n = chain2[res2]['N'].get_vector()
-        c = chain2[res2]['C'].get_vector()
-        ca = chain2[res2]['CA'].get_vector()
-        # center at origin
-        n = n - ca
-        c = c - ca
-        # find rotation matrix that rotates n -120 degrees along the ca-c vector
-        rot = rotaxis(-pi * 120.0 / 180.0, c)
-        # apply rotation to ca-n vector
-        cb_at_origin = n.left_multiply(rot)
-        # put on top of ca atom
-        cb2 = cb_at_origin + ca
+    try:
         if res_name1 == 'GLY':
-            distance = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
+            # get atom coordinates as vectors
+            n = chain[res1]['N'].get_vector()
+            c = chain[res1]['C'].get_vector()
+            ca = chain[res1]['CA'].get_vector()
+            # center at origin
+            n = n - ca
+            c = c - ca
+            # find rotation matrix that rotates n -120 degrees along the ca-c vector
+            rot = rotaxis(-pi * 120.0 / 180.0, c)
+            # apply rotation to ca-n vector
+            cb_at_origin = n.left_multiply(rot)
+            # put on top of ca atom
+            cb1 = cb_at_origin + ca
+        if res_name2 == 'GLY':
+            # get atom coordinates as vectors
+            n = chain2[res2]['N'].get_vector()
+            c = chain2[res2]['C'].get_vector()
+            ca = chain2[res2]['CA'].get_vector()
+            # center at origin
+            n = n - ca
+            c = c - ca
+            # find rotation matrix that rotates n -120 degrees along the ca-c vector
+            rot = rotaxis(-pi * 120.0 / 180.0, c)
+            # apply rotation to ca-n vector
+            cb_at_origin = n.left_multiply(rot)
+            # put on top of ca atom
+            cb2 = cb_at_origin + ca
+            if res_name1 == 'GLY':
+                distance = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
 
-        else:
-            cb1 = chain[res1]['CB'].get_vector()
+            else:
+                cb1 = chain[res1]['CB'].get_vector()
+                distance = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
+        elif res_name1 == 'GLY':
+            cb2 = chain2[res2]['CB'].get_vector()
             distance = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
-    elif res_name1 == 'GLY':
-        cb2 = chain2[res2]['CB'].get_vector()
-        distance = sqrt((cb1[0]-cb2[0])**2 + (cb1[1]-cb2[1])**2 + (cb1[2]-cb2[2])**2)
-    else:
-        distance = chain[res1]['CB'] - chain2[res2]['CB']
+        else:
+                distance = chain[res1]['CB'] - chain2[res2]['CB']
+    except:
+        logging.info('Some trouble to access the atoms, located in {} or {}. Most probable explanation: \
+        The structure presents only CA'.format(res1,res2))
+        return 0
 
     return distance
 
@@ -178,6 +90,7 @@ def select_and_save_distances(beg_helix1,end_helix1,
             try:
                 res_name2 = chain2[res2].get_resname()
             except KeyError as e:
+                print('This position ( {} ) didnt present name, skiping it '.format(res2))
                 continue
 
             distance = calculate_distance(res1, res2, chain1, chain2)
@@ -204,9 +117,7 @@ def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_
         dict_name_dist[(res_name2, res_name1)][distance] += 1
         dict_name_dist[(res_name2, res_name1)][999] += 1
         dict_name_freq.setdefault(res_name1, 0)
-        dict_name_freq[res_name1] += 1
-        dict_freq_dist.setdefault(distance,0)
-        dict_freq_dist[distance] += 1
+        dict_name_freq[res_name1]  += 1
         return
 
     # Save results into a dict-list
@@ -214,105 +125,13 @@ def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_
     dict_name_dist[(res_name1, res_name2)].setdefault(distance, 0)
     dict_name_dist[(res_name1, res_name2)][distance] += 1
     dict_name_dist[(res_name1, res_name2)].setdefault(999, 0)
-    dict_name_dist[(res_name1, res_name2)][999] += 1
+    dict_name_dist[(res_name1, res_name2)][999]+= 1
 
     dict_name_freq.setdefault(res_name1, 0)
     dict_name_freq[res_name1] += 1
     dict_freq_dist.setdefault(distance,0)
     dict_freq_dist[distance] += 1
     return
-
-def print_results(dict_results, outputname):
-    """
-    Prints the results with the specified format. Default separation
-    is tabs! Not working right now.
-    """
-    result_ouput = open(outputname, "w")
-
-    for key, value in sorted(dict_results.items()):
-        string = str(key) + "\t"
-        for val in value:
-            string += str(val) + "\t"
-        string += "\n"
-        result_ouput.write(string)
-    result_ouput.close()
-
-def obtain_distances_freq_CIF(directory):
-
-    """
-    Calculates intra and inter distances of transmembrane domains present in
-    the protein.
-    Returns dataset of distances for all the proteins analysed.
-    """
-    transdom_inter_distances = {}
-    transdom_intra_distances = {}
-    transdom_aa_freq = {}
-    transdom_dist_freq = {}
-
-
-    logging.info('Processing the following dir: {}'.format(directory))
-    for file_dir in os.listdir(directory):
-        file_dir = os.path.join(directory, file_dir)
-        filename = file_dir
-
-        # Select the file and generate a structure var with all the pdb inside.
-        #SOmetimes there is no option to generate the structure due to PDB files errors.
-        mmcif_dict = MMCIF2Dict(filename)
-        try:
-            entity = MMCIFParser()
-            structure = entity.get_structure(mmcif_dict['_entry.id'], filename)
-            logging.info('Working with {}'.format(mmcif_dict['_entry.id']))
-            model = structure[0]
-
-        except:
-            logging.info('NOPE, {}'.format(mmcif_dict['_entry.id']))
-            continue
-
-        #CHeck if the protein has helix domains.
-
-        transmembrane_dict = determine_transmembrane_domains(filename)
-
-        for key, value in transmembrane_dict.items():
-            logging.info('Chain processed: {}\n Transdom: {}'.format(key, value))
-            chain1 = model[key]
-            for val in value:
-                beg_helix1, end_helix1 = int(val[0]), int(val[1])
-
-                # ################INTRA DISTANCES ####################################
-
-                select_and_save_distances(beg_helix1,end_helix1,
-                                          beg_helix1,end_helix1,
-                                          chain1,chain1, transdom_intra_distances,
-                                          transdom_aa_freq,
-                                          transdom_dist_freq)
-                                          
-                # ################INTER DISTANCES SAME CHAIN  ##############################
-                for val2 in value:
-                    if val == val2:
-                        continue
-                    beg_helix2, end_helix2 = int(val2[0]), int(val2[1])
-                    select_and_save_distances(beg_helix1,end_helix1,
-                                              beg_helix2,end_helix2,
-                                              chain1,chain1, transdom_inter_distances,
-                                              transdom_aa_freq,
-                                              transdom_dist_freq)
-
-                # ################INTER DISTANCES BTWN CHAIN  ########################
-                for key, value in transmembrane_dict.items():
-                    chain2 = model[key]
-                    if chain1 == chain2:
-                        continue
-                    for val3 in value:
-                        beg_helix3, end_helix3 = int(val3[0]), int(val3[1])
-                        select_and_save_distances(beg_helix1,end_helix1,
-                                                  beg_helix3,end_helix3,
-                                                  chain1,chain2, transdom_inter_distances,
-                                                  transdom_aa_freq,
-                                                  transdom_dist_freq)
-
-
-    tuple_dict = transdom_intra_distances,transdom_inter_distances,transdom_aa_freq,transdom_dist_freq
-    total_division_and_pickling(tuple_dict)
 
 
 def total_division_and_pickling(tuple_dict):
@@ -330,9 +149,124 @@ def total_division_and_pickling(tuple_dict):
     list_of_dict[1] = transdom_inter_distances
     tuple_dict = list_of_dict
 
+    list_of_dict = list(tuple_dict)
+
+    transdom_intra_distances = list_of_dict[0]
+    for dires,value in transdom_intra_distances.items():
+        for dist,count in value.items():
+            if dist == 999:
+                continue
+            transdom_intra_distances[dires][dist] = transdom_intra_distances[dires][dist] / transdom_intra_distances[dires][999]
+
+    list_of_dict[0] = transdom_intra_distances
+    tuple_dict = list_of_dict
+
+
     pickle.dump(tuple_dict, open( "dicts_baby.p", "wb" ) )
     logging.info('THE END\n\n')
     exit()
+
+
+def MAIN(directory):
+
+    """
+    Calculates intra and inter distances of transmembrane domains present in
+    the protein.
+    Returns dataset of distances for all the proteins analysed.
+    """
+    transdom_inter_distances = {}
+    transdom_intra_distances = {}
+    transdom_aa_freq = {}
+    transdom_dist_intra_freq = {}
+    transdom_dist_inter_freq = {}
+
+    logging.info('Processing the following dir: {}'.format(directory))
+
+    filename_chain_dom_dict = pickle.load( open( "my_phobius_domains.p", "rb" ))
+    for PDB_id, chains_file in filename_chain_dom_dict.items():
+        if filename_chain_dom_dict[PDB_id] == None:
+            continue
+        PDB_id = PDB_id[:-5] + 'cif'
+        file_dir = os.path.join(directory, PDB_id)
+        filename = file_dir
+
+        # Select the file and generate a structure var with all the pdb inside.
+        #SOmetimes there is no option to generate the structure due to PDB files errors.
+        mmcif_dict = MMCIF2Dict(filename)
+        try:
+            entity = MMCIFParser()
+            structure = entity.get_structure(mmcif_dict['_entry.id'], filename)
+            logging.info('Working with {}'.format(mmcif_dict['_entry.id']))
+            model = structure[0]
+
+        except:
+            logging.info('NOPE, {}'.format(mmcif_dict['_entry.id']))
+            continue
+
+        #CHeck if the protein has helix domains.
+
+        chain_ind = 0
+        typical_chains = ('A','B','C','D','E','F','G','H','I','J','K','L')
+        for chain, domains in chains_file.items():
+            logging.info('Chain processed: {}\n Transdom: {}'.format(chain, domains))
+            non_interesting_case = re.search("[0-9]|[a-z]", chain)
+            other_non_interesting_case = re.search("[P-Z]", chain)
+            if non_interesting_case or other_non_interesting_case:
+                continue
+            if chain not in model:
+                if 'A' not in filename_chain_dom_dict.keys():
+                    chain = typical_chains[chain_ind]
+                    chain_ind += 1
+
+            chain1 = model[chain]
+            for val in domains:
+                beg_helix1, end_helix1 = int(val[0]), int(val[1])
+
+                # ################INTRA DISTANCES ####################################
+
+                select_and_save_distances(beg_helix1,end_helix1,
+                                          beg_helix1,end_helix1,
+                                          chain1,chain1, transdom_intra_distances,
+                                          transdom_aa_freq,
+                                          transdom_dist_intra_freq)
+
+                # ################INTER DISTANCES SAME CHAIN  ##############################
+                for val2 in domains:
+                    if val == val2:
+                        continue
+                    beg_helix2, end_helix2 = int(val2[0]), int(val2[1])
+                    select_and_save_distances(beg_helix1,end_helix1,
+                                              beg_helix2,end_helix2,
+                                              chain1,chain1, transdom_inter_distances,
+                                              transdom_aa_freq,
+                                              transdom_dist_inter_freq)
+
+                # ################INTER DISTANCES BTWN CHAIN  ########################
+                chain_ind2 = 0
+                for chain2, value in chains_file.items():
+                    non_interesting_case2 = re.search("[0-9]|[a-z]", chain)
+                    other_non_interesting_case2 = re.search("[P-Z]", chain)
+                    if non_interesting_case2 or other_non_interesting_case2:
+                        continue
+                    if chain2 not in model:
+                        if 'A' not in filename_chain_dom_dict.keys():
+                            chain2 = typical_chains[chain_ind]
+                            chain_ind2 += 1
+
+                    chain2 = model[chain2]
+                    if chain1 == chain2:
+                        continue
+                    for val3 in value:
+                        beg_helix3, end_helix3 = int(val3[0]), int(val3[1])
+                        select_and_save_distances(beg_helix1,end_helix1,
+                                                  beg_helix3,end_helix3,
+                                                  chain1,chain2, transdom_inter_distances,
+                                                  transdom_aa_freq,
+                                                  transdom_dist_inter_freq)
+
+
+    tuple_dict = transdom_intra_distances,transdom_inter_distances,transdom_aa_freq,transdom_dist_intra_freq,transdom_dist_inter_freq
+    total_division_and_pickling(tuple_dict)
 
 
 if __name__ == "__main__":
@@ -343,7 +277,7 @@ if __name__ == "__main__":
     if len(sys.argv) >= 1:
         dir_path = sys.argv[1]
         if os.path.isdir(dir_path):
-            obtain_distances_freq_CIF(dir_path)
+            MAIN(dir_path)
         else:
             raise ValueError("We only work with directory files sir.")
 

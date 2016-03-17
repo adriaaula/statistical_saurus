@@ -1,20 +1,16 @@
 import pickle
-from generate_distances_freq_dict import *
 from phobius_tester import *
-from membranosaurus import *
+from generate_distances_freq_dict import calculate_distance
 import sys
-import urllib
 import os
-import zipfile
 import time
-import pexpect
 from time import gmtime, strftime
 import logging
 import pickle
 from Bio.PDB import *
 from Bio.PDB.PDBParser import PDBParser
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
-import numpy as np
+from numpy import *
 
 
 def select_and_save_distances_query(beg_helix1,end_helix1,
@@ -147,7 +143,6 @@ def PMF_pair_calc(res_pair, distance, query_dict, SP_distances_2res, SP_freq_aa,
 
     return PMF_pair
 
-    #acumulative_distance_2res = np.sum([ SP_distances_2res[val] for val in SP_distances_2res.values() if val <= max_distance ] )
 
 def MAIN(directory):
 
@@ -178,13 +173,13 @@ def MAIN(directory):
 
     for pos in query_distances_intra.keys():
         for aa_pairs,distances in query_distances_intra[pos].items():
-            PMF_positions[pos] = np.sum(PMF_pair_calc(aa_pairs,distances,
+            PMF_positions[pos] = sum(PMF_pair_calc(aa_pairs,distances,
                                                 query_distances_intra,
                                                 SP_intra_distances,
                                                 SP_aa_freq ,
                                                 SP_dist_intra_freq) for aa_pairs,distance in query_distances_intra[pos].items())
 
-            PMF_positions[pos] += np.sum(PMF_pair_calc(aa_pairs,distances,
+            PMF_positions[pos] += sum(PMF_pair_calc(aa_pairs,distances,
                                                 query_distances_inter,
                                                 SP_inter_distances,
                                                 SP_aa_freq ,
