@@ -65,40 +65,74 @@
 \date{18 March, 2015 }
 \maketitle %this is optional in case you want a whole page just for the title, author and date.
 
-\section{Theoretical facts about transmembrane proteins. }
+\section{Background }
 
-\begin{itemize}
-\item[(i)] Length: from 14 residues to 40. 
-\item[(ii)] Membrane width: 30 A (Bilayer Thickness and Membrane Protein Function: An Energetic Perspective, 2007)
+\begin{block}
+In the last years, advances in high-thoughput technologies have provided a huge number of protein sequences, while the number of protein high-resolution structures stills increasing slowly. For filling the gap between sequence and structure availability, protein modelling from sequence has turned to be a usual strategy. However, modelling methods are subject to error, this leads to the need of evaluation methods for the generated models. Evaluation of the generated models can be performed by methods based on energies, knowledge-based potentials or both. Here we propose a method based on knowledge-based potentials for evaluating the folding specifically for transmembrane alpha helix domains.
 
-50 A (Molecular Biology of the Cell, 6ed, Alberts, JOhnson, Lewis, et al
+Genome-wide estimations suggest that alpha-helical transmembrane domains supose approximatelly the 20-30\% of coding genes in most organisms. These proteins are necessary for many biological functions such as cell adhesion, cell comunication or energy transduction. Helical transmembrane domains are essential for the function of the whole protein. They may define directly the function of proteins by the formation of catalytic sites or membrane pores. Otherwise, they can also be involved in signal transduction or in protein traffic. 
 
-40 A aproximatelly. Lipid bilayer structure John F Nagle*† and Stephanie Tristram-Nagle
+This vast biological relevance coexists with a low availability of high-resolution structures. From the whole set of helical transmembrane proteins in PDB, formed by approximatelly 2400 structures, only 420 have a percentage of sequence identity under the 95\%. This means that, nowadays, the available dataset of helical transmembrane domains is limited and very redundant. Therefore, the importance of modelling properly helical transmembrane domains responds both to the biological relevance of these proteins and to the limited acces to high-resolution structures.
 
-They describe a very precise asymetric membrane model in wich we also find the three states described in the wikipedia, but with more accuracy: -> very cool plot, use in the theory part
+The proposed approach is based in knowledge based potentials. A knowledge-based potential is an energy function derived from the analisys of known protein structures. This function defines the relation between the generated models and the native state of the protein. The native state is the region in the protein conformational space corresponding with the active conformation of a protein, which is generally the lowest free energy state under native conditions. So, the purpose is to exctract statistical features of a dataset of native state proteins for testing the features of the generated models, and scoring how close are these model features to the ones of the dataset.
 
-1-Central: completelly hidrophobic: from 25 to 30 A 
-2-Intermediate: partially hidratated: 5 A
-3-Outern: totally hidratated: 7 to 10 A
+Here, our starting point is the general definition of knowledge-based potential desbribed in Aloy and Oliva (2009)
 
-Wikipedia: bilayer hidratation profile: a membrane can be divided in three compartments:
+####FORMULAKAS Y EXPLICAR FORMULAKAS
 
-1-Central: completelly hidrophobic: from 25 to 35 A
-2-Intermediate: partially hidratated: 3 A
-3-Outern: totally hidratated: 7 to 10 A
-
-From now we set: 
-
--center +- 15 A = hidrophobic
--from center + 15 to center + 25 = hidrophilic 
--from center - 15 to center - 25 = hidrophilic 
-
-\item[(iii)] PDB coordinate units: amstrongs
+As demonstrated in Aloy and Oliva (2009), we can split the general score for knowledge-based potentials in several components. Each of these components responds to an specific feature in proteins such as the frequencies of distances between specific residues or frequencies in which an specific residue is placed in an specific enviroment. 
 
 
+\end{block}
+
+\section{Methodology }
+
+\begin{block}
+The computation of these statistical potentials will be obtained by using a non redundant dataset of high-resolution helical transmembrane PDB structures. The dataset is composed of 419 structures, where the maximum level of sequence identity allowed among its members is 95\%. For these computations, the location of the aminoacids will be reported by the position of the beta carbon, so we also capture information of the orientation of the side chain of each residue. The first step in our methodology is to detect the helical transmembrane domains in the structures from our dataset. For this we will use Phobious, a software developed by the Stockholm Bioinformatics Centre for detecting helical transmembrane domains. Once the helical transmembrane domains are defined we can start computing statistic potentials. Here we define three different different statatistic potentials:
+
+Pair potentials: Pair potentials are computed by measuring the frequency for specific distances between pairs of aminoacids. Here, as we focus on transmembrane domains, we only compute these distances between the residues in the transmembrane domains in a two step way. The first step is computing the pair potentials for residues in the same transmembrane domain (intra-helix pairs). The second step is computing the pair potentials for each residue with the residues placed in other transmembrane domains(inter-helix pairs). For each step we compute a pair potential score, following the formula defined in Aloy and Oliva (2009):
+
+#####FORMULAKA
+
+After this computation, both statistic potentials are added to the final score.
+
+The hipothesis beneath this approach is that helical transmembrane domains are not uniform. Even though is well known that transmembrane sequences are highly hidrophobic regions, the cell membrane is not uniform. Whereas the center of the membrane is highly hidrophobic, the edges of it are charged negativelly. In the following image we can se the distribution of electric density along a lipidic bilayer:
+
+####IMAGEN DE LA DISTRIBUCION DE DENSIDAD ELECTRONICA A LO LARGO DE LA BICAPA
+
+As we can see, we find a peak of electric density 20 A far from the center of the lipidic bilayer. Our hipothesis is that this will conditionate proteins for having positivelly charged residues for stabilizing the interactions with this particular layer of the membrane. So, we would expect to find possitively charged residues with high probabilities at an approximate distance of 40 A. This is an example of one usefull feature for evaluating models by using the intra-helix pair potentials. For avoiding overfitting, no pair potentials will be computed between residues which are at a distance of 4 positions or less in the sequence. 
+
+Enviroment potentials: as we have seen, we can find different enviroments within a membrane. Here we define three enviroments in which we can classify the residues: hidrophobic, charged and soluble. The hidrophobic enviroment corresponds with the center of the cell membrane, with a width of 15 A from the center of the bilayer in any direction. The charged enviroment corresponds with the charged and superficial layer of the membrane, and we have set it from 15 to 25 A distance from the center of the bilayer. Then, the soluble enviroment corresponds with the space that is further of 25 A from the center of the membrane. Here we compute these statistical potentials for residues included in the membrane but also for the loops and soluble domains of the protein that are close to the membrane.
+
+For defining these enviroments we will have to set in each structure the position of the membrane. For doing this we start from the hipothesis that most of the helical transmembrane domains are orthogonal to the membrane. Then, if we compute a paralel vector and an average point for all transmembrane domains we will be able to define a plane which will represent the center of the lipidic bilayer. For a plane defined by the expression Ax + By + Cz + D, we can define A, B and C as the coordinates of the orthogonal vector to the plane, which is the paralel vector to the transmembrane domains. Then D can be obtained by substituting x, y and z by the average point of the domain. Once we have computed the orthogonal vector for each transmembrane domain we will obtain the average from all and then obtaining the equation of the plane.
+
+Once we have a plane, it is easy to obtain paralel planes which are at a certain distance. We can turn our orthogonal vector into unitary, by dividing its coordinates by its euclidean norm. Then, we can add or substract this vector to the average point previously computed. As long as the coordinates we are working with are Amstrongs, each time we add one unitary vector to the average point we are moving this point one Amstrong outside of the membrane. So, by moving this point 15 Amstrongs and 25 Amstrongs up and down respect the central plane, we will get points for defining the edges of the previously defined enviroments. For each of this planes we will compute the value of D in the plane equation. Then, for checking if one residue is in any enviroment we will compute the D value for the paralel plane to the membrane passing thru the beta carbon of this residue. If the D value of this plane is included between the D values of the planes that define the edges of one enviroment, then we can asure that this residue is placed between these two planes.
+
+We are only missing how do we get the paralel vector to the transmembrane helixes. We can compute it by using the inertia tensor. The inertia tensor is a 3x3 matrix that defines the rotational inertia of a rigid body, here we will apply it to alpha helixes. For computing the matrix we use the following formula:
+
+#######FORMULAKA DEL TENSOR DE INERCIA
+
+Where i represents each one of the points in the helix. We set the alpha carbons as these points that define the shape and mass distribution of the helix. Then mi is the mass of one alpha carbon and xi, yi and zi are the coordinates of one alpha carbon. The diagonalization of this matrix results in three eigenvalues and three eigenvectors. The eigenvectors indicate the directions that define the axes of rotation of the body, while the eigenvalues indicate the length of each of these vectors. For cylinders with enough height it is known that the lowest eigenvalue corresponds with the vector pointing in a paralel direction to the cylinder. So, we can consider alpha helixes as cylinders, computing and diagonalizing the inertia tensor and getting the vector with lowest eigenvalue. Then, for each structure, we can compute the mean of the obtained vectors for each one of the transmembrane domains. That is how we get the orthogonal vector to the membrane.
+
+Loop potentials: loop potentials are computed by measuring the distance between the center of the membrane, defined by a plane as explained previously. So, we compute the frequency of distaces for specific residues to the center of the membrane. For this we follow the next formula inspired by the pair potential formula:
+
+#########FORMULAKA PARA LA OBTENCIÓN DE LOOP POTENTIALS
+
+The hypothesys beneath this potential is that loops are much more variable than transmembrane domains. So, is much more probable that loops are wrong in a model than transmembrane loops. Also, loops may interact with transmembrane domains or with the membrane, so we can capture this information by computing the distance to the membrane.
+
+For concluding the methodology, it is important to say that these potentials lead to an heterogeneous scoring of a model. The pair potentials only take in account residues in the transmembrane domains, while the loop potentials only take in account residues in the loops. This may lead to scores of different scale along the protein. For solving this is necessary to test these potentials in order to obtain a ponderate representation of each, and then obtaining a system for scoring in an uniform way transmembrane domains and loops. Besides, the loop potentials have not been defined before, so it will be necessary to obtain the distribution of Z-scores for this potential in order to obtain the sign of it within the global statistic potential score.
+
+\end{block}
+
+\section{Results }
+
+\begin{block}
+
+Me voy a dormir
 
 
-\end{itemize}
+\end{block}
+
 
 
 \end{document}
