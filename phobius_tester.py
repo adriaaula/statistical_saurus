@@ -12,12 +12,12 @@ def FASTA_iterator(filename):
     fasta_file=open(filename, "r")
     id_fasta=""
     seq_fasta=""
+
     for line in fasta_file:
         if line.startswith(">"):
             if id_fasta == "":
                 id_fasta=line.strip()
                 continue
-
             fasta = id_fasta , seq_fasta
             yield fasta
             seq_fasta=""
@@ -25,6 +25,9 @@ def FASTA_iterator(filename):
 
         else:
             seq_fasta += line.strip()
+
+    if seq_fasta != "":
+        yield id_fasta, seq_fasta 
 
 def phobius_runner(filename):
     chain_dom_dict = {}
@@ -39,7 +42,6 @@ def phobius_runner(filename):
         fasta_file = open('phobius/fasta_PDB.fasta', 'w')
         fasta_file.write(fasta)
         fasta_file.close()
-
         child = subprocess.check_output("cat phobius/fasta_PDB.fasta | perl phobius/phobius.pl ", shell=True)
         child = child.decode('utf8')
         child = child.split('\n')
@@ -75,5 +77,5 @@ if __name__ == '__main__':
         trans_domains_phobius[filename.split("/")[-1]] = phobius_runner(filename)
 
     pickle.dump(trans_domains_phobius, open( "my_phobius_domains.p", "wb" ))
-    print('The end motherfuckers')
+    print('Everything ok')
     exit()

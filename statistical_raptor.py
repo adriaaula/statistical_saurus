@@ -42,7 +42,6 @@ def select_and_save_distances_query(beg_helix1,end_helix1,
             try:
                 res_name2 = chain2[res2].get_resname()
             except KeyError as e:
-                print('This position ( {} ) didnt present name, skiping it '.format(res2))
                 continue
 
             distance = calculate_distance(res1, res2, chain1, chain2)
@@ -74,7 +73,7 @@ def save_results_query(res1, res_name1, res_name2, distance, dict_name_dist):
     dict_name_dist[res1][(res_name1, res_name2)][distance] += 1
     return
 
-def get_seq_PDB(filename):
+def get_seq_PDB_CIF(filename):
 
     """
     From a PDB created with Modeller or other, iterates trough all atoms and generates
@@ -91,9 +90,19 @@ def get_seq_PDB(filename):
     for line in pdb:
         if line.startswith("ATOM"):
             field_list = line.split()
+            if '.pdb' in filename:
+                if field_list[2] == "CA":
+                    if field_list[3] not in correspondence:
+                        seq += str('X')
+                    else:
+                        seq += str(correspondence[field_list[3]])
+            if '.cif' in filename:
+                if field_list[3] == "CA":
+                    if field_list[5] not in correspondence:
+                        seq += str('X')
+                    else:
+                        seq += str(correspondence[field_list[5]])
 
-            if field_list[2] == "CA":
-                seq += str(correspondence[field_list[3]])
     seq += '\n>\n'
     return seq
 
@@ -113,16 +122,26 @@ def distance_query_generator(filename):
 
 
     if '.pdb' in filename:
-        fasta_fil = open('fasta_to_generate.fasta', 'w')
-        seq_fasta = get_seq_PDB(filename)
-        fasta_fil.write(seq_fasta)
-        fasta_fil.close()
+        try:
+            trans_dom_query = phobius_runner(filename[:-3] + 'fasta' )
+        except:
+            sys.stderr('***It is recomendable add the fasta seq as  \
+                            a separated file in the current directory ***\n ')
+            fasta_fil = open('fasta_to_generate.fasta', 'w')
+            seq_fasta = get_seq_PDB_CIF(filename)
+            fasta_fil.write(seq_fasta)
+            fasta_fil.close()
 
         trans_dom_query = phobius_runner('fasta_to_generate.fasta')
         entity = PDBParser()
 
     elif '.cif' in filename:
-        trans_dom_query = phobius_runner('/home/adria/UPF/PDB_fasta/' + file_id + 'fasta')
+        try:
+            trans_dom_query = phobius_runner(filename[:-3] + 'fasta' )
+        except:
+            raise ValueError( 'To use .cif files introduce a fasta with the following name: '
+                                + filename[:-3] + 'fasta')
+
         entity = MMCIFParser()
 
     structure = entity.get_structure('X', filename)
@@ -186,10 +205,14 @@ def PMF_pair_calc(res_pair, distance, query_dict, SP_distances_2res, SP_freq_aa,
         if res_pair not in SP_distances_2res.keys():
             res_pair = (res_pair[1],res_pair[0])
 
+        if res_pair not in SP_freq_dist.keys():
+            res_pair = (res_pair[1],res_pair[0])
+
+
         acumulative_distance_2res += sum( freq for dist,freq in  SP_distances_2res[res_pair].items()
                                           if dist <= dist_query and dist != 999 )
         acumulative_distance_gen += sum( freq for dist,freq in  SP_freq_dist.items()
-                                          if dist <= dist_query)
+                                          if dist <= dist_query )
 
         PMF_pair_dist = - log(acumulative_distance_2res/
                              (SP_freq_aa[res_pair[0]]*SP_freq_aa[res_pair[1]]*acumulative_distance_gen)
@@ -245,7 +268,7 @@ def make_plot(PMF_positions,file_id,output_path):
         Scatter(
                 x=positions,
                 y=pmf_values,
-                line = dict(color = random.randint(0,len(color_list)))
+                line = dict(color = color_list[random.randint(0,len(color_list))])
                 )
 
     ],
@@ -254,7 +277,7 @@ def make_plot(PMF_positions,file_id,output_path):
         yaxis = dict(title = 'Potential Mean Force (kT)'),
         title= '<b>Transmembrane statistic potentials:  ' + file_id + '</b>'
     )
-    }, filename = output_path + '.html')
+    }, filename = output_path + '_' + file_id + '.html')
 
 
 def MAIN(filename,window,output_path):
@@ -272,13 +295,13 @@ def MAIN(filename,window,output_path):
     SP_dist_intra_freq = tuple_dict[3]
     SP_dist_inter_freq = tuple_dict[4]
 
-    sys.stderr.write('\tCreating the distance query dict\n')
+    sys.stderr.write('\tCreating the distance query dict...\n')
     # Obtain all the distance values
     distances_query = distance_query_generator(filename)
     query_distances_intra, query_distances_inter = distances_query[0] , distances_query[1]
 
     PMF_positions = {}
-    sys.stderr.write('\tCalculating the PMF for each position\n')
+    sys.stderr.write('\tCalculating the PMF for each position...\n')
     # Calculates all the PMF values for a given position
     for pos in query_distances_intra.keys():
         PMF_positions[pos] = sum(PMF_pair_calc(aa_pairs,distances,
@@ -294,7 +317,7 @@ def MAIN(filename,window,output_path):
                                             SP_aa_freq ,
                                             SP_dist_inter_freq) for aa_pairs,distances in query_distances_inter[pos].items())
 
-    sys.stderr.write('\tPlotting the results...')
+    sys.stderr.write('\tPlotting the results...\n')
     #Creates the graph in plotly
     PMF_median= apply_window_size(PMF_positions,window)
     file_id = filename.split('/')[-1]
@@ -315,7 +338,7 @@ def argparse_creator():
 						dest = "outfile",
 						action = "store",
 						default = "output.html",
-						help = "Output file or directory")
+						help = "Path and output files.")
 
 	parser.add_argument('-w','--window',
 						dest = "window",
@@ -343,9 +366,10 @@ if __name__ == '__main__':
         window = int(argv[2])
         if os.path.isdir(path):
             for filename in os.listdir(path):
-                sys.stderr.write('Working with {}\n'.format(filename))
-                file_pdb = os.path.join(path, filename)
-                MAIN(file_pdb,window,output_path)
+                if '.pdb' in path or '.cif' in filename:
+                    sys.stderr.write('Working with {}\n'.format(filename))
+                    file_pdb = os.path.join(path, filename)
+                    MAIN(file_pdb,window,output_path)
         elif os.path.isfile(path):
             if '.pdb' in path or '.cif' in path:
                 sys.stderr.write('Working with {}\n'.format(path))
