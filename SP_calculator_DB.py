@@ -1,5 +1,4 @@
 import sys
-import urllib
 import os
 import re
 import zipfile
@@ -15,7 +14,7 @@ from numpy import *
 def calculate_distance(res1, res2, chain, chain2):
     """
     Retrieves a distance value between two residues.
-    Does the calculation for GLY residues.
+    Does the calculation for GLY residues, without presenting CB
     """
 
     res_name1 = chain[res1].get_resname()
@@ -90,7 +89,7 @@ def select_and_save_distances(beg_helix1,end_helix1,
             try:
                 res_name2 = chain2[res2].get_resname()
             except KeyError as e:
-                print('This position ( {} ) didnt present name, skiping it '.format(res2))
+                print('This position ( {} ) didnt present name, skiping it.'.format(res2))
                 continue
 
             distance = calculate_distance(res1, res2, chain1, chain2)
@@ -135,34 +134,48 @@ def save_results_dict(res_name1, res_name2, distance, dict_name_dist, dict_name_
 
 
 def total_division_and_pickling(tuple_dict):
-    """Final changes to the dict to have the normalized value division, with probabilities"""
+    """Divides each dictionary with the total count and saves the result in a pickle"""
 
-    list_of_dict = list(tuple_dict)
+    transdom_intra_distances = tuple_dict[0]
+    transdom_inter_distances = tuple_dict[1]
+    transdom_aa_freq = tuple_dict[2]
+    transdom_dist_intra_freq = tuple_dict[3]
+    transdom_dist_inter_freq = tuple_dict[4]
 
-    transdom_inter_distances = list_of_dict[1]
+
     for dires,value in transdom_inter_distances.items():
         for dist,count in value.items():
             if dist == 999:
                 continue
             transdom_inter_distances[dires][dist] = transdom_inter_distances[dires][dist] / transdom_inter_distances[dires][999]
 
-    list_of_dict[1] = transdom_inter_distances
-    tuple_dict = list_of_dict
-
-    list_of_dict = list(tuple_dict)
-
-    transdom_intra_distances = list_of_dict[0]
     for dires,value in transdom_intra_distances.items():
         for dist,count in value.items():
             if dist == 999:
                 continue
             transdom_intra_distances[dires][dist] = transdom_intra_distances[dires][dist] / transdom_intra_distances[dires][999]
 
-    list_of_dict[0] = transdom_intra_distances
-    tuple_dict = list_of_dict
+
+    total_aa = sum(values for values in transdom_aa_freq.values())
+    for key,value in transdom_aa_freq.items():
+        transdom_aa_freq[key] =  transdom_aa_freq[key] / total_aa
+
+    total_intra = sum(values for values in transdom_dist_intra_freq.values())
+    for key,value in transdom_dist_intra_freq.items():
+        transdom_dist_intra_freq[key] =  transdom_dist_intra_freq[key] / total_intra
+
+    total_inter = sum(values for values in transdom_dist_inter_freq.values())
+    for key,value in transdom_dist_inter_freq.items():
+        transdom_dist_inter_freq[key] =  transdom_dist_inter_freq[key] / total_inter
 
 
-    pickle.dump(tuple_dict, open( "dicts_baby.p", "wb" ) )
+
+    tuple_dict = (transdom_intra_distances,
+                transdom_inter_distances,transdom_aa_freq,
+                transdom_dist_intra_freq,transdom_dist_inter_freq)
+
+
+    pickle.dump(tuple_dict, open( "SP_dataset.p", "wb" ) )
     logging.info('THE END\n\n')
     exit()
 
@@ -186,21 +199,23 @@ def MAIN(directory):
     for PDB_id, chains_file in filename_chain_dom_dict.items():
         if filename_chain_dom_dict[PDB_id] == None:
             continue
-        PDB_id = PDB_id[:-5] + 'cif'
+        PDB_id = PDB_id[:-5] + 'pdb'
         file_dir = os.path.join(directory, PDB_id)
         filename = file_dir
 
         # Select the file and generate a structure var with all the pdb inside.
         #SOmetimes there is no option to generate the structure due to PDB files errors.
-        mmcif_dict = MMCIF2Dict(filename)
+        file_cif = '/home/adria/UPF/PDB_cif/' + PDB_id[:-3] + 'cif'
+        mmcif_dict = MMCIF2Dict(file_cif)
+
         try:
-            entity = MMCIFParser()
+            entity = PDBParser()
             structure = entity.get_structure(mmcif_dict['_entry.id'], filename)
             logging.info('Working with {}'.format(mmcif_dict['_entry.id']))
             model = structure[0]
 
-        except:
-            logging.info('NOPE, {}'.format(mmcif_dict['_entry.id']))
+        except Exception as e:
+            logging.info('Unable to define structure, {}. '.format(mmcif_dict['_entry.id']))
             continue
 
         #CHeck if the protein has helix domains.
@@ -282,4 +297,4 @@ if __name__ == "__main__":
             raise ValueError("We only work with directory files sir.")
 
     else:
-        raise ValueError("TREX: Please specify input [1]")
+        raise ValueError("Please specify input [1]")
